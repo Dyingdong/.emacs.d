@@ -160,7 +160,7 @@
 			:message "you need to install the programs: latex and dvipng."
 			:image-input-type "dvi"
 			:image-output-type "png"
-			:image-size-adjust (1.3 . 1.2)
+			:image-size-adjust (1.4 . 1.2)
 			:latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
 			:image-converter ("dvipng -D %D -T tight -o %O %f")))
   ;; 公式基线对齐：https://emacs-china.org/t/org-latex-preview/22288/2
@@ -257,7 +257,9 @@
   ;; (org-roam-mode . org-download-enable)
   :config
   (setq-default org-download-heading-lvl 4)
+  ;; (setq-default org-download-image-dir "./images")
   (setq-default org-download-image-dir "./images")
+  
   ;; (defun dummy-org-download-annotate-function (link)
   ;; "")
   ;; (setq org-download-annotate-function

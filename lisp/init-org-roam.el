@@ -45,16 +45,15 @@
            :unnarrowed t)))
 
   ;;org-roam-dailies-directory
-  (setq-default org-roam-dailies-directory "F:\\org\\org-roam-directory\\diary")
+  (setq-default org-roam-dailies-directory "F:\\iCloudDrive\\iCloudDrive\\win_emacs_org_roam\\diary")
   (setq-default org-roam-dailies-capture-templates
-		'(("j" "journal" plain "* %?"
-		   :target (file+head "%<%Y-%m-%d-%a>-Diary.org"
-				      "#+title: %<%Y-%m-%d-%a>-Diary\n")
+		'(("j" "work journal" plain "* %?"
+		   :target (file+head "%<%Y-%m-%d-%a>-Work-Diary.org"
+				      "#+title: %<%Y-%m-%d-%a>-Work-Diary\n")
 		   :unnarrowed t)
-		  ("w" "weekly report" plain
-		   "* 本周工作总结\n\n * 下周工作安排"
-		   :target (file+head "%<%Y-%m-%d-%a>-Weekly.org"
-				      "#+title: %<%Y-%m-%d-%a>-Weekly\n")
+		  ("w" "work weekly report" plain "* %?"
+		   :target (file+head "%<%Y-%m-%d-%a>-Work-Weekly.org"
+				      "#+title: %<%Y-%m-%d-%a>-Work-Weekly\n")
 		   :unnarrowed t)
 		  ("m" "monthly report" plain
 		   "* 本月工作总结\n\n * 下月工作安排"

@@ -87,8 +87,8 @@
 (require 'init-copilot)
 ;; (require 'init-kimi)
 
-(require 'init-eaf)
-(require 'init-fanyi)
+;; (require 'init-eaf)
+;; (require 'init-fanyi)
 
 (provide 'init)
 ;;; init.el ends here

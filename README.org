@@ -34,3 +34,10 @@
      (prefer-coding-system 'utf-8)
      (setq system-time-locale "C")
    #+end_src
+* win11下org mode中latex公式预览问题
+** 问题描述
+在执行函数“org-latex-preview”后没有反应，无法预览，并报错“dvi文件无法产生”
+** 问题原因
+win11的Administrator账号名太长。Windows对文件的一个特性导致 admini~1=administrator 即：当目录/文件 文件名长度大于8位时，可采用类似于admini~1的形式进入第一个目录，那么此处的字符1就表示以admini开头的第一个目录，如果有 admini~2 ,那么2就是第二个目录。
+** 解决方式
+自定义环境变量中TEMP和TMP的值

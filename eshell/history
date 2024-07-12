@@ -60,3 +60,9 @@ latex orgtexbsIK4V.tex
 ls
 dvipdfmx orgtexbsIK4V.dvi 
 latex orgtexC69tef.tex 
+cd 。。
+cd ..
+ls
+git add .
+git commit -m "解决在win11中org模式下latex公式无法预览的问题"
+git push
