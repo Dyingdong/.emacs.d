@@ -46,3 +46,11 @@ cd Users/dongyinghua/Downloads/
 ;s
 ls
 mv es.exe d:/emacs/emacs-29.4/bin/
+ls
+git add .
+git config --global --add safe.directory C:/Users/dongyinghua/AppData/Roaming/.emacs.d
+git status
+git add .
+git branch
+git commit -m "处理Windows11下Emacs 29.4的中文乱码问题"
+git push

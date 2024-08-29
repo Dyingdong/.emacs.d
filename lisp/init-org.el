@@ -12,7 +12,7 @@
 
 (use-package org
   :ensure nil
-  :defer 1
+  :defer t
   :bind
   ("C-c b" . org-switchb)
   ("C-c 。" . org-time-stamp)
@@ -30,8 +30,80 @@
   ;; The error was: (error "Invalid search bound (wrong side of point)")
   (customize-set-variable 'warning-suppress-log-types '((org-element-cache)))
 
+  
   ;; org for GTD
-  (require 'init-org-gtd)
+  (load-library "find-lisp")
+  (setq org-agenda-files (find-lisp-find-files org-gtd-path "\.org$"))
+
+  (setq-default org-refile-targets '((org-gtd-path-projects :maxlevel . 5)
+				     (org-gtd-path-todos :maxlevel . 5)
+				     (org-gtd-path-schedule :maxlevel . 5)
+				     (org-gtd-path-inbox :maxlevel . 5)
+				     ))
+  ;; 设置能在agenda中显示的deadline的时间
+  (setq-default org-deadline-warning-days 30)
+  ;; org-capture
+  ;; 快捷键“C-c x”
+  (setq-default org-capture-templates
+		'(("i" "Inbox" entry
+		   (file+headline org-gtd-path-inbox "Tasks")
+		   "* TODO %?\n  %i\n"
+		   :empty-lines 0)
+		  ("s" "Schedule" entry
+		   (file+headline org-gtd-path-schedule "Schedules")
+		   "* TODO %?\n  %i\n"
+		   :empty-lines 1)
+		  ("t" "TODOs" entry
+		   (file+headline org-gtd-path-todos "TODOs")
+		   "* TODO %?\n  %i\n"
+		   :empty-lines 1)
+		  ("p" "Projects" entry
+		   (file+headline org-gtd-path-projects "Projects")
+		   "* TODO %?\n  %i\n"
+		   :empty-lines 1)
+		  )
+		)
+
+
+  ;; 设置任务流程
+  ;; This is achieved by adding special markers ‘!’ (for a timestamp)
+  ;; or ‘@’ (for a note with timestamp) in parentheses after each keyword.
+  (setq org-todo-keywords
+	'((sequence "DOING(i)" "TODO(t)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)"))
+	org-todo-keyword-faces '(("TODO" . (:foreground "#F4606C" :weight blod))
+				 ("DOING" . (:foreground "#19CAAD" :weight blod))
+				 ("HANGUP" . (:foreground "#F4606C" :weight bold))
+				 ("DONE" . (:foreground "#939391" :weight blod))
+				 ("CANCEL" . (:background "gray" :foreground "black"))))
+  
+  (setq org-priority-faces '((?A . error)
+			     (?B . warning)
+			     (?C . success)))
+
+  ;; need repeat task and properties
+  (setq org-log-done nil)
+  ;; (setq org-log-into-drawer t)
+  (setq org-log-repeat nil)
+
+  (setq-default org-agenda-span 'day)
+  ;;(add-hook org-capture-mode-hook 'evil-mode)
+
+  (setq-default org-agenda-custom-commands
+		'(("i" "重要且紧急的事" ;; 不显示没有加org-todo-keywords以及keyword是DONE的任务
+		   ((tags-todo "+PRIORITY=\"A\"")))
+		  ;; ...other commands here
+		  ))
+
+  (setq org-agenda-sorting-strategy
+	'((agenda time-up category-up tag-up priority-down)
+	  (todo   category-up priority-down)
+	  (tags   category-up priority-down)
+	  (search category-up)))
+
+  ;; 设置不参与继承的标签
+  (setq org-tags-exclude-from-inheritance '("LONGTERM"))
+
+  	      
   
   ;; 使 org-mode 中的 timestamp 格式为英文
   (setq system-time-locale "C")
@@ -43,70 +115,6 @@
   (add-to-list 'org-latex-default-packages-alist '("" "ctex" t ("xelatex")))
 
   (setq-default org-latex-prefer-user-labels t)
-  
-  ;; 解决org-mode中LaTeX数学公式中的中文渲染问题
-  ;; https://q3yi.me/post/4_use_xelatex_instead_of_latex_in_org_preview_latex_process/
-  (add-to-list 'org-preview-latex-process-alist
-	       '(xdvsvgm :progams
-			 ("xelatex" "dvisvgm")
-			 :discription "xdv > svg"
-			 :message "you need install the programs: xelatex and dvisvgm."
-			 :image-input-type "xdv"
-			 :image-output-type "svg"
-			 :image-size-adjust (4.5 . 4.5) ; 调整 svg 的 size
-			 :latex-compiler ("xelatex -interaction nonstopmode -no-pdf -output-directory %o %f")
-			 :image-converter ("dvisvgm %f -n -b min -c %S -o %O")))
-
-  (setq org-preview-latex-default-process 'xdvsvgm)
-
-  ;; org-mode美化公式预览https://emacs-china.org/t/org-mode-latex-mode/22490
-  ;; 只借鉴了公式编号部分
-  ;; from: https://kitchingroup.cheme.cmu.edu/blog/2016/11/07/
-  ;; Better-equation-numbering-in-LaTeX-fragments-in-org-mode/
-  (defun org-renumber-environment (orig-func &rest args)
-    (let ((results '()) 
-          (counter -1)
-          (numberp))
-      (setq results (cl-loop for (begin .  env) in 
-                             (org-element-map (org-element-parse-buffer)
-                                 'latex-environment
-                               (lambda (env)
-                                 (cons
-                                  (org-element-property :begin env)
-                                  (org-element-property :value env))))
-                             collect
-                             (cond
-                              ((and (string-match "\\\\begin{equation}" env)
-                                    (not (string-match "\\\\tag{" env)))
-                               (cl-incf counter)
-                               (cons begin counter))
-                              ((and (string-match "\\\\begin{align}" env)
-                                    (string-match "\\\\notag" env))
-                               (cl-incf counter)
-                               (cons begin counter))
-                              ((string-match "\\\\begin{align}" env)
-                               (prog2
-                                   (cl-incf counter)
-                                   (cons begin counter)                          
-                                 (with-temp-buffer
-                                   (insert env)
-                                   (goto-char (point-min))
-                                   ;; \\ is used for a new line. Each one leads
-                                   ;; to a number
-                                   (cl-incf counter (count-matches "\\\\$"))
-                                   ;; unless there are nonumbers.
-                                   (goto-char (point-min))
-                                   (cl-decf counter
-                                            (count-matches "\\nonumber")))))
-                              (t
-                               (cons begin nil)))))
-      (when (setq numberp (cdr (assoc (point) results)))
-        (setf (car args)
-              (concat
-               (format "\\setcounter{equation}{%s}\n" numberp)
-               (car args)))))
-    (apply orig-func args))
-  (advice-add 'org-create-formula-image :around #'org-renumber-environment)
   
   ;; To speed up startup, don't put to init section
   (setq org-modules nil)     ;; Faster loading
@@ -142,6 +150,7 @@
   
   ;; 标题下的列表就可以像标题一样折叠了
   (setq org-cycle-include-plain-lists 'integrate)
+
   ) ; use-package org ends here
 
 (use-package hi-lock
@@ -212,19 +221,19 @@
 				       nil
 				       t)))) ; use-package org-appear
 
-(use-package org-fragtog
-  :ensure t
-  :defer t
-  :hook (org-mode . org-fragtog-mode)
-  ;; (org-roam-mode . org-fragtog-mode)
-  )
+;; (use-package org-fragtog
+;;   :ensure t
+;;   :defer t
+;;   :hook (org-mode . org-fragtog-mode)
+;;   ;; (org-roam-mode . org-fragtog-mode)
+;;   )
 
 (use-package org-download
   :ensure t
   :defer t
   :hook
   (org-mode . org-download-enable)
-  (org-roam-mode . org-download-enable)
+  ;; (org-roam-mode . org-download-enable)
   :config
   (setq-default org-download-heading-lvl 4)
   (setq-default org-download-image-dir "./images")
@@ -233,29 +242,15 @@
   ;; (setq org-download-annotate-function
   ;; 'dummy-org-download-annotate-function)
   ;; (setq org-download-screenshot-method "imagemagick/convert -a -f %s")
-
-  (defun org-screenshot-on-windows11 ()
-    (interactive)
-    (setq full-file-name (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
-    ;; 如果文件名的长度小于14,放到mainImage文件夹下面
-    (if (< (length full-file-name) 14)
-	(setq before-file-name-part "main")
-      ;;否则,判断文件中是否含有中文(专门给org roam做的优化,不通用,但是也不想改了)
-      (if (string-match "\\cc" full-file-name)
-          (setq before-file-name-part  (substring (file-name-sans-extension (file-name-nondirectory buffer-file-name)) 0 14))
-	(setq before-file-name-part (substring (file-name-sans-extension (file-name-nondirectory buffer-file-name)) 15))))
-    ;; 自己改动的地方，源代码：(setq imagefile (concat "./" before-file-name-part "Image/"))
-    (setq imagefile (concat "./images/" (org-get-heading) "/"))
-    (unless (file-exists-p imagefile)
-      (make-directory imagefile))
-    (setq filename (concat (make-temp-name (concat imagefile
-                                                   (format-time-string "%Y%m%d_%H%M%S_")))
-                           ".png"))
-    (shell-command (concat "powershell -command \"Add-Type -AssemblyName System.Windows.Forms;if ($([System.Windows.Forms.Clipboard]::ContainsImage())) {$image = [System.Windows.Forms.Clipboard]::GetImage();[System.Drawing.Bitmap]$image.Save('"
-                           filename "',[System.Drawing.Imaging.ImageFormat]::Png); Write-Output 'clipboard content saved as file'} else {Write-Output 'clipboard does not contain image data'}\""))
-    (insert (concat "[[file:" filename "]]"))
-    (org-display-inline-images))
   )
+
+(use-package zotxt
+  :ensure t
+  :after org org-roam
+  :defer t
+  :hook
+  (org . org-zotxt-mode)
+  (org-roam-mode . org-zotxt-mode))
 
 (provide 'init-org)
 ;;; init-org.el ends here

@@ -173,26 +173,44 @@
 (use-package pyim
   :ensure t
   :defer t
-  )
-(defun eh-orderless-regexp (orig_func component)
-  (let ((result (funcall orig_func component)))
-    (pyim-cregexp-build result)))
+  :init
+  (require 'pyim)
+  (defun eh-orderless-regexp (orig_func component)
+    (let ((result (funcall orig_func component)))
+      (pyim-cregexp-build result)))
 
 
-(defun toggle-chinese-search ()
-  (interactive)
-  (if (not (advice-member-p #'eh-orderless-regexp 'orderless-regexp))
-      (advice-add 'orderless-regexp :around #'eh-orderless-regexp)
-    (advice-remove 'orderless-regexp #'eh-orderless-regexp)))
-
-(defun disable-py-search (&optional args)
-  (if (advice-member-p #'eh-orderless-regexp 'orderless-regexp)
+  (defun toggle-chinese-search ()
+    (interactive)
+    (if (not (advice-member-p #'eh-orderless-regexp 'orderless-regexp))
+	(advice-add 'orderless-regexp :around #'eh-orderless-regexp)
       (advice-remove 'orderless-regexp #'eh-orderless-regexp)))
 
-;; (advice-add 'exit-minibuffer :after #'disable-py-search)
-(add-hook 'minibuffer-exit-hook 'disable-py-search)
+  (defun disable-py-search (&optional args)
+    (interactive)
+    (if (advice-member-p #'eh-orderless-regexp 'orderless-regexp)
+	(advice-remove 'orderless-regexp #'eh-orderless-regexp)))
 
-(global-set-key (kbd "s-p") 'toggle-chinese-search)
+  (defun enable-py-search ()
+    (interactive)
+    (if (not (advice-member-p #'eh-orderless-regexp 'orderless-regexp))
+	(advice-add 'orderless-regexp :around #'eh-orderless-regexp))
+    )
+  
+  ;; (advice-add 'exit-minibuffer :after #'disable-py-search)
+  (add-hook 'minibuffer-exit-hook 'enable-py-search)
+
+  (global-set-key (kbd "s-p") 'toggle-chinese-search)
+  )
+
+(use-package origami
+  :ensure t
+  :defer t
+  :hook (org-agenda-mode . origami-mode)
+  ;; :general (:keymaps 'org-super-agenda-header-map
+  ;; "TAB" #'origami-toggle-node)
+  :config
+  )
 
 (provide 'init-packages)
 ;;; init-packages.el ends here

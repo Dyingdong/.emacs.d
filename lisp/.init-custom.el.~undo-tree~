@@ -1,5 +1,5 @@
 (undo-tree-save-format-version . 1)
-"fd299b8ef7f06bc67e1b40b9777979f7c67b63c5"
+"d7b97bfeee8ba8edaf831404155d789c54f05b56"
 [nil nil nil nil (26275 15669 248330 0) 0 nil]
 ([nil nil ((#("org" 0 3 (face font-lock-string-face fontified t)) . -3909) (undo-tree-id147 . -3) 3912 (t 26273 63023 0 0)) nil (26275 15712 46205 0) 0 nil])
 ([nil nil ((#("Documents/" 0 10 (face font-lock-string-face fontified t)) . -3899) (undo-tree-id146 . -10) 3909) nil (26275 15712 46204 0) 0 nil])
@@ -35,5 +35,6 @@ nil
 ([nil nil ((3835 . 3836)) nil (26275 18699 54815 0) 0 nil])
 ([nil nil ((#("\\" 0 1 (face font-lock-string-face fontified t)) . -3829) (undo-tree-id1363 . -1) 3830) nil (26275 18699 54813 0) 0 nil])
 ([nil nil ((3829 . 3830)) nil (26275 18699 54797 0) 0 nil])
-([nil current ((4327 . 4328) (t 26275 18699 0 0)) nil (26275 22828 207560 0) 0 nil])
+([nil nil ((4327 . 4328) (t 26275 18699 0 0)) nil (26275 22828 207560 0) 0 nil])
+([nil current ((apply -9 1667 1917 undo--wrap-and-run-primitive-undo 1667 1917 ((1836 . 1839) (1752 . 1755) (1671 . 1674) 1667))) nil (26288 29532 721100 0) 0 nil])
 nil

@@ -48,5 +48,7 @@
 
 ;; (define-key global-map (kbd "s-s") 'dragonli-save-file)
 
+(global-set-key (kbd "C-c p") 'dragonli-insert-image)
+
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

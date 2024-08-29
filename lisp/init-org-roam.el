@@ -11,10 +11,11 @@
 (use-package org-roam
   :ensure t
   :defer t
-  ;;:hook (sqlite3 . org-roam-mode)
   :bind ("C-c o f" . org-roam-node-find)
-  :init
-  (setq org-roam-directory "F:\\org\\org_roam_directory")
+  ;; :hook (after-init . org-roam-db-autosync-mode)
+  ;; :init
+  :config
+  (setq org-roam-directory "F:\\iCloudDrive\\iCloudDrive\\win_emacs_org_roam")
 
   (setq find-file-visit-truename t)
   

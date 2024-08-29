@@ -78,6 +78,7 @@
 ;; (require 'init-treemacs)
 
 (require 'init-org)
+(require 'init-org-super-agenda)
 (require 'init-org-roam)
 
 (require 'init-latex)
@@ -87,7 +88,6 @@
 ;; (require 'init-kimi)
 
 (require 'init-eaf)
-
 (require 'init-fanyi)
 
 (provide 'init)
