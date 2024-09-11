@@ -20,6 +20,7 @@
   (add-to-list 'TeX-view-program-selection '(output-pdf "eaf"))
   )
 
+
 (use-package cdlatex
   ;;:load-path (lambda () (expand-file-name "cdlatex" dragonli-emacs-tools-file-path))
   ;;"~/.emacs.d/tools/cdlatex"

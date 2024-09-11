@@ -45,6 +45,10 @@
 	  (:name "Today"  ; Optionally specify section name
 		 :time-grid t  ; Items that appear on the time grid
 		 :todo "TODAY")  ; Items that have this TODO keyword
+	  ;; (:name "重要事项"
+          ;;        ;; Single arguments given alone
+          ;;        :tag "bills"
+          ;;        :priority "A")
 	  (:auto-group t)
 	  ;; After the last group, the agenda will display items that didn't
 	  ;; match any of these groups, with the default order position of 99

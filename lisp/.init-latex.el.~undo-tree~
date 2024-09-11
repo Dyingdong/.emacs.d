@@ -1,5 +1,5 @@
 (undo-tree-save-format-version . 1)
-"4115735b2aa6ea2c660b32c9583a486dae85f9af"
+"e1bca54b0fc33864b9ba436d7b71fe68af8e51e1"
 [nil nil nil nil (26275 4342 268025 0) 0 nil]
 ([nil nil ((#(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" 0 70 (face font-lock-comment-delimiter-face fontified t)) . 1144) (undo-tree-id183 . -70) (t 26275 4024 0 0)) nil (26275 4342 268024 0) 0 nil])
 ([nil nil ((#("
@@ -75,5 +75,6 @@ nil
 ([nil nil ((#("encode-" 0 7 (fontified t)) . -344) (undo-tree-id1402 . -7) 351) nil (26298 51732 903324 0) 0 nil])
 ([nil nil ((#("(" 0 1 (face (rainbow-delimiters-depth-4-face) fontified t)) . -343) (undo-tree-id1399 . -1) (undo-tree-id1400 . -1) (undo-tree-id1401 . -1) 344) nil (26298 51732 903323 0) 0 nil])
 ([nil nil ((#("string (" 0 5 (fontified t) 5 6 (rear-nonsticky t fontified t) 6 7 (fontified t) 7 8 (face (rainbow-delimiters-depth-4-face) fontified t)) . -343) (undo-tree-id1398 . -8) 351) nil (26298 51732 903319 0) 0 nil])
-([nil current ((#(")" 0 1 (face (rainbow-delimiters-depth-3-face) fontified t)) . 378)) nil (26298 51732 903307 0) 0 nil])
+([nil nil ((#(")" 0 1 (face (rainbow-delimiters-depth-3-face) fontified t)) . 378)) nil (26298 51732 903307 0) 0 nil])
+([nil current ((543 . 544) (t 26298 51732 0 0)) nil (26337 1642 528998 0) 0 nil])
 nil

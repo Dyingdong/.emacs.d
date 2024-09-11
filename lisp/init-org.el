@@ -151,6 +151,27 @@
   ;; 标题下的列表就可以像标题一样折叠了
   (setq org-cycle-include-plain-lists 'integrate)
 
+  ;; org latex公式预览
+  ;; https://emacs-china.org/t/org/19465
+  (add-to-list 'org-preview-latex-process-alist
+	       '(dvipng :programs
+			("latex" "dvipng")
+			:description "dvi > png"
+			:message "you need to install the programs: latex and dvipng."
+			:image-input-type "dvi"
+			:image-output-type "png"
+			:image-size-adjust (1.3 . 1.2)
+			:latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
+			:image-converter ("dvipng -D %D -T tight -o %O %f")))
+  ;; 公式基线对齐：https://emacs-china.org/t/org-latex-preview/22288/2
+  (defun my-org-latex-preview-advice (beg end &rest _args)
+    (let* ((ov (car (overlays-in beg end)))
+           (img (cdr (overlay-get ov 'display)))
+           (new-img (plist-put img :ascent 100)))
+      (overlay-put ov 'display (cons 'image new-img))))
+  (advice-add 'org--make-preview-overlay
+              :after #'my-org-latex-preview-advice)
+  
   ) ; use-package org ends here
 
 (use-package hi-lock
@@ -221,12 +242,12 @@
 				       nil
 				       t)))) ; use-package org-appear
 
-;; (use-package org-fragtog
-;;   :ensure t
-;;   :defer t
-;;   :hook (org-mode . org-fragtog-mode)
-;;   ;; (org-roam-mode . org-fragtog-mode)
-;;   )
+(use-package org-fragtog
+  :ensure t
+  :defer t
+  :hook (org-mode . org-fragtog-mode)
+  ;; (org-roam-mode . org-fragtog-mode)
+  )
 
 (use-package org-download
   :ensure t

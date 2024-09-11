@@ -54,3 +54,9 @@ git add .
 git branch
 git commit -m "处理Windows11下Emacs 29.4的中文乱码问题"
 git push
+./configure
+ls
+latex orgtexbsIK4V.tex
+ls
+dvipdfmx orgtexbsIK4V.dvi 
+latex orgtexC69tef.tex 

@@ -486,7 +486,7 @@ WIN-ID : Window index."
 	       (propertize "Image Size: " 'face '(bold default)))))
   (if (string= size "")
       ;; 默认值是1000
-      (insert (concat "#+ATTR_ORG: :width 1000"))
+      (insert (concat "#+ATTR_ORG: :width 600"))
     (insert (concat "#+ATTR_ORG: :width " size)))
   (insert "\n")
   (org-screenshot-on-windows11)
