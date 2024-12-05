@@ -11,10 +11,11 @@
 (use-package org-roam
   :ensure t
   :defer t
-  ;;:hook (sqlite3 . org-roam-mode)
   :bind ("C-c o f" . org-roam-node-find)
-  :init
-  (setq org-roam-directory "~/Documents/Org/org-roam-directory")
+  ;; :hook (after-init . org-roam-db-autosync-mode)
+  ;; :init
+  :config
+  (setq org-roam-directory "F:\\iCloudDrive\\iCloudDrive\\win_emacs_org_roam")
 
   (setq find-file-visit-truename t)
   
@@ -44,16 +45,15 @@
            :unnarrowed t)))
 
   ;;org-roam-dailies-directory
-  (setq-default org-roam-dailies-directory "~/Documents/Org/org-roam-directory/diary")
+  (setq-default org-roam-dailies-directory "F:\\iCloudDrive\\iCloudDrive\\win_emacs_org_roam\\diary")
   (setq-default org-roam-dailies-capture-templates
-		'(("j" "journal" plain "* %?"
-		   :target (file+head "%<%Y-%m-%d-%a>-Diary.org"
-				      "#+title: %<%Y-%m-%d-%a>-Diary\n")
+		'(("j" "work journal" plain "* %?"
+		   :target (file+head "%<%Y-%m-%d-%a>-Work-Diary.org"
+				      "#+title: %<%Y-%m-%d-%a>-Work-Diary\n")
 		   :unnarrowed t)
-		  ("w" "weekly report" plain
-		   "* 本周工作总结\n\n * 下周工作安排"
-		   :target (file+head "%<%Y-%m-%d-%a>-Weekly.org"
-				      "#+title: %<%Y-%m-%d-%a>-Weekly\n")
+		  ("w" "work weekly report" plain "* %?"
+		   :target (file+head "%<%Y-%m-%d-%a>-Work-Weekly.org"
+				      "#+title: %<%Y-%m-%d-%a>-Work-Weekly\n")
 		   :unnarrowed t)
 		  ("m" "monthly report" plain
 		   "* 本月工作总结\n\n * 下月工作安排"
@@ -103,6 +103,19 @@
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :bind (:map org-mode-map
               (("C-c n a" . orb-note-actions))))
+
+(defun org-roam-get-keyword (name &optional file bound)
+  "Return keyword property NAME from an org FILE.
+FILE defaults to current file.
+Only scans up to BOUND bytes of the document."
+  (unless bound
+    (setq bound 1024))
+  (if file
+      (with-temp-buffer
+        ;; from insert-file-contents-literally to insert-file-contents
+        (insert-file-contents file nil 0 bound) 
+        (org-roam--get-keyword name))
+    (org-roam--get-keyword name bound)))
 
 (provide 'init-org-roam)
 ;;; init-org-roam.el ends here

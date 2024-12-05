@@ -11,31 +11,28 @@
   ;; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
   (eaf-browser-continue-where-left-off t)
   (eaf-browser-enable-adblocker t)
-  (browse-url-browser-function 'eaf-open-browser)
+  ;; (browse-url-browser-function 'eaf-open-browser)
+  
   :config
-  ;; (setq eaf-python-command "/opt/homebrew/bin/python3")
+  ;; (setq eaf-python-command "D:/develop/python3124/python.exe")
   ;; (setq eaf-enable-debug t)
   ;; (require 'eaf-demo)
-  (require 'eaf-org)
+  ;; (require 'eaf-org)
   
-  ;; (require 'eaf-camera)
-  (require 'eaf-image-viewer)
-  ;; (require 'eaf-video-player)
-  ;; (require 'eaf-music-player)
-  ;; (require 'eaf-pyqterminal)
-
-  ;; eaf-file-manager
-  (require 'eaf-file-manager)
+  ;; (require 'eaf-image-viewer)
   
   ;; eaf-browser
-  (require 'eaf-browser)
-  (setq eaf-browser-dark-mode nil)
+  ;; (require 'eaf-browser)
+  ;; (setq eaf-browser-dark-mode nil)
   
   ;; eaf-pdf-viewer
   ;; 黑暗背景
   (require 'eaf-pdf-viewer)
   (setq eaf-pdf-dark-mode nil)
 
+  (require 'eaf-mindmap)
+
+  (require 'eaf-markmap)
   ;; eaf-git
   ;; (require 'eaf-git)
   

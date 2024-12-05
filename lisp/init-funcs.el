@@ -31,10 +31,6 @@
   (interactive)
   (find-file "~/Documents/Org/org-roam-directory/2022021709_org_learning_note.org"))
 
-(defun open-mac-learning-note ()
-  "Open the note about learning Mac."
-  (interactive)
-  (find-file "~/Documents/Org/org-roam-directory/2022032322_my_macbook_manual.org"))
 
 (defun open-org-roam-diary ()
   "Open the diary by org roam."
@@ -78,37 +74,37 @@ file to wdeired, and consult-location to occur-edit"
 ;; 子龙山人写的function一开始只能打开文件所在的文件夹，而不是该文件。
 ;; 原因在于他用了函数 file-name-directory，该函数是返回文件所在的文件夹的目录。
 ;; 把这个函数去除之后就可以了，所以我写了两个函数，一个是打开文件夹，一个是打开文件。
+;; 2024.7.24：换到win系统下，原来的函数无效了，所以在原有的基础上进行了改动，借鉴了spacemacs的函数spacemacs//open-in-external-app
 (defun consult-file-externally (file)
   "Open FILE externally using the default application of the system."
   (interactive "fOpen externally: ")
+  (w32-shell-execute "open" (replace-regexp-in-string "/" "\\\\" (expand-file-name file)))
+  )
+
+(defun consult-directory-externally (file)
+    "Open FILE externally using the default application of the system."
+  (interactive "fOpen externally: ")
   (if (and (eq system-type 'windows-nt)
            (fboundp 'w32-shell-execute))
-      (shell-command-to-string (encode-coding-string (replace-regexp-in-string "/" "\\\\" (format "explorer.app %s" (file-name-directory (expand-file-name file)))) 'gbk))
+      (shell-command-to-string (encode-coding-string (replace-regexp-in-string "/" "\\\\"
+                                                                               (format "explorer.exe %s" (file-name-directory (expand-file-name file)))) 'gbk))
     (call-process (pcase system-type
                     ('darwin "open")
                     ('cygwin "cygstart")
                     (_ "xdg-open"))
-		  nil 0 nil
-		  ;; another function that open the directory where the `file' is.
-		  ;; (file-name-directory (expand-file-name file))
-		  ;; (file-name-directory FILENAME)
-		  ;; Return the directory component in file name FILENAME. More details see "C-h f"
-		  (expand-file-name file))
-    )
-  )
-
-(defun consult-directory-externally (file)
-  "Open the FILE's directory externally by system."
-  (interactive "fOpen externally: ")
-  (if (and (eq system-type 'windows-nt)
-	   (fboundp 'w32-shell-execute))
-      (shell-command-to-string (encode-coding-string (replace-regexp-in-string "/" "\\\\" (format "explorer.exe %s" (file-name-directory (expand-file-name file)))) 'gbk))
-    (call-process (pcase system-type
-		    ('darwin "open")
-		    ('cygwin "cygstart")
-		    (_ "xdg-open"))
-		  nil 0 nil
-		  (file-name-directory (expand-file-name file)))))
+                  nil 0 nil
+                  (file-name-directory (expand-file-name file)))))
+  ;; "Open the FILE's directory externally by system."
+  ;; (interactive "fOpen externally: ")
+  ;; (if (and (eq system-type 'windows-nt)
+  ;; 	   (fboundp 'w32-shell-execute))
+  ;;     (shell-command-to-string (encode-coding-string (replace-regexp-in-string "/" "\\\\" (format "Files.exe %s" (file-name-directory (expand-file-name file)))) 'gbk))
+  ;;   (call-process (pcase system-type
+  ;; 		    ('darwin "open")
+  ;; 		    ('cygwin "cygstart")
+  ;; 		    (_ "xdg-open"))
+  ;; 		  nil 0 nil
+  ;; 		  (file-name-directory (expand-file-name file)))))
 
 ;; From Xah Lee http://xahlee.info/emacs/emacs/emacs_dired_open_file_in_ext_apps.html
 (defun xah-open-in-external-app (&optional Fname)
@@ -120,39 +116,39 @@ Version: 2019-11-04 2021-07-21 2022-08-19 2023-02-28 2023-03-10"
   (interactive)
   (let (xfileList xdoIt)
     (setq xfileList
-          (if Fname
-              (list Fname)
-            (if (string-equal major-mode "dired-mode")
-                (dired-get-marked-files)
-              (list buffer-file-name))))
+	  (if Fname
+	      (list Fname)
+	    (if (string-equal major-mode "dired-mode")
+		(dired-get-marked-files)
+	      (list buffer-file-name))))
     (setq xdoIt (if (<= (length xfileList) 10) t (y-or-n-p "Open more than 10 files? ")))
     (when xdoIt
       (cond
        ((string-equal system-type "windows-nt")
-        (let ((xoutBuf (get-buffer-create "*xah open in external app*"))
-              (xcmdlist (list "PowerShell" "-Command" "Invoke-Item" "-LiteralPath")))
-          (mapc
-           (lambda (x)
-             (message "%s" x)
-             (apply 'start-process (append (list "xah open in external app" xoutBuf) xcmdlist (list (format "'%s'" (if (string-match "'" x) (replace-match "`'" t t x) x))) nil)))
-           xfileList)
+	(let ((xoutBuf (get-buffer-create "*xah open in external app*"))
+	      (xcmdlist (list "PowerShell" "-Command" "Invoke-Item" "-LiteralPath")))
+	  (mapc
+	   (lambda (x)
+	     (message "%s" x)
+	     (apply 'start-process (append (list "xah open in external app" xoutBuf) xcmdlist (list (format "'%s'" (if (string-match "'" x) (replace-match "`'" t t x) x))) nil)))
+	   xfileList)
 
-          (switch-to-buffer-other-window xoutBuf))
-        ;; old code. calling shell. also have a bug if filename contain apostrophe
-        ;; (mapc (lambda (xfpath) (shell-command (concat "PowerShell -Command \"Invoke-Item -LiteralPath\" " "'" (shell-quote-argument (expand-file-name xfpath)) "'"))) xfileList)
-        )
+	  (switch-to-buffer-other-window xoutBuf))
+	;; old code. calling shell. also have a bug if filename contain apostrophe
+	;; (mapc (lambda (xfpath) (shell-command (concat "PowerShell -Command \"Invoke-Item -LiteralPath\" " "'" (shell-quote-argument (expand-file-name xfpath)) "'"))) xfileList)
+	)
        ((string-equal system-type "darwin")
-        (mapc (lambda (xfpath) (shell-command (concat "open " (shell-quote-argument xfpath)))) xfileList))
+	(mapc (lambda (xfpath) (shell-command (concat "open " (shell-quote-argument xfpath)))) xfileList))
        ((string-equal system-type "gnu/linux")
-        (mapc (lambda (xfpath)
-                (call-process shell-file-name nil nil nil
-                              shell-command-switch
-                              (format "%s %s"
-                                      "xdg-open"
-                                      (shell-quote-argument xfpath))))
-              xfileList))
+	(mapc (lambda (xfpath)
+		(call-process shell-file-name nil nil nil
+			      shell-command-switch
+			      (format "%s %s"
+				      "xdg-open"
+				      (shell-quote-argument xfpath))))
+	      xfileList))
        ((string-equal system-type "berkeley-unix")
-        (mapc (lambda (xfpath) (let ((process-connection-type nil)) (start-process "" nil "xdg-open" xfpath))) xfileList))))))
+	(mapc (lambda (xfpath) (let ((process-connection-type nil)) (start-process "" nil "xdg-open" xfpath))) xfileList))))))
 
 ;;在所有由text-mode衍生出来的mode中禁用toggle-truncate-lines
 (defun toggle-truncate-lines-off()
@@ -160,6 +156,7 @@ Version: 2019-11-04 2021-07-21 2022-08-19 2023-02-28 2023-03-10"
   (interactive)
   (setq truncate-lines nil)
   )
+
 
 ;; init-font.el
 (defun set-font (english-font chinese-font)
@@ -169,14 +166,14 @@ the names of the English and Chinese font of Emacs."
   (interactive)
   ;;Setting English Font
   (set-face-attribute
-   'default nil :family english-font :height 180 :weight 'normal)
+   'default nil :family english-font :height 140 :weight 'normal)
   ;;Chinese Font
   (dolist (charset '(kana han symbol cjk-misc bopomofo))
     (set-fontset-font (frame-parameter nil 'font)
 		      charset
 		      (font-spec :family chinese-font)))
   ;; tune rescale so that Chinese character width = 2 * English character width
-  (setq face-font-rescale-alist '((english-font . 1.0) (chinese-font . 1.23)))
+  (setq face-font-rescale-alist '((english-font . 2.0) (chinese-font . 1.0)))
   )
 
 ;; (defun s-font(english-font chinese-font)
@@ -218,14 +215,14 @@ the names of the English and Chinese font of Emacs."
 Save to `custom-file' if NO-SAVE is nil."
   (customize-set-variable variable value)
   (when (and (not no-save)
-             (file-writable-p custom-file))
+	     (file-writable-p custom-file))
     (with-temp-buffer
       (insert-file-contents custom-file)
       (goto-char (point-min))
       (while (re-search-forward
-              (format "^[\t ]*[;]*[\t ]*(setq %s .*)" variable)
-              nil t)
-        (replace-match (format "(setq %s '%s)" variable value) nil nil))
+	      (format "^[\t ]*[;]*[\t ]*(setq %s .*)" variable)
+	      nil t)
+	(replace-match (format "(setq %s '%s)" variable value) nil nil))
       (write-region nil nil custom-file)
       (message "Saved %s (%s) to %s" variable value custom-file))))
 
@@ -239,8 +236,8 @@ Save to `custom-file' if NO-SAVE is nil."
    (list
     (intern
      (ivy-read "Select package archives: "
-               (mapcar #'car dragonli-package-archives-alist)
-               :preselect (symbol-name dragonli-package-archives)))))
+	       (mapcar #'car dragonli-package-archives-alist)
+	       :preselect (symbol-name dragonli-package-archives)))))
   ;; Set option
   (dragonli-set-variable 'dragonli-package-archives archives no-save)
 
@@ -258,22 +255,22 @@ Return the fastest package archive."
   (interactive)
 
   (let* ((durations (mapcar
-                     (lambda (pair)
-                       (let ((url (concat (cdr (nth 2 (cdr pair)))
+		     (lambda (pair)
+		       (let ((url (concat (cdr (nth 2 (cdr pair)))
 					  "archive-contents"))
-                             (start (current-time)))
-                         (message "Fetching %s..." url)
-                         (ignore-errors
-                           (url-copy-file url null-device t))
-                         (float-time (time-subtract (current-time) start))))
-                     dragonli-package-archives-alist))
-         (fastest (car (nth (cl-position (apply #'min durations) durations)
-                            dragonli-package-archives-alist))))
+			     (start (current-time)))
+			 (message "Fetching %s..." url)
+			 (ignore-errors
+			   (url-copy-file url null-device t))
+			 (float-time (time-subtract (current-time) start))))
+		     dragonli-package-archives-alist))
+	 (fastest (car (nth (cl-position (apply #'min durations) durations)
+			    dragonli-package-archives-alist))))
 
     Display on chart
     (when (and (not no-chart)
-               (require 'chart nil t)
-               (require 'url nil t))
+	       (require 'chart nil t)
+	       (require 'url nil t))
       (chart-bar-quickie
        'horizontal
        "Speed test for the ELPA mirrors"
@@ -289,8 +286,8 @@ Return the fastest package archive."
 (defun childframe-workable-p ()
   "Whether childframe is workable."
   (or (not (or noninteractive
-               emacs-basic-display
-               (not (display-graphic-p))))
+	       emacs-basic-display
+	       (not (display-graphic-p))))
       (daemonp)))
 
 ;; Functions for org mode.
@@ -329,11 +326,6 @@ See `buffer-invisibility-spec'."
   (lsp-bridge-mode)
   )
 
-(defun dragonli-insert-setting-of-image ()
-  "Insert the setting of image in org mode."
-  (interactive)
-  (insert "#+ATTR_ORG: :width 900"))
-
 (defun org-bold-highlight ()
   "利用`highlight-regexp'高亮指定的正则表达式."
   (interactive)
@@ -345,18 +337,6 @@ See `buffer-invisibility-spec'."
   "Insert the templet of the 5Cs which were proposed in 'how to read a paper'."
   (interactive)
   (insert "** First Pass\n*** Category\n\n*** Context\n\n*** Correctness\n\n*** Contribution\n\n*** Clarity\n\n")
-  )
-
-(defun dragonli-insert-setting-of-image ()
-  "Insert the setting of image in org mode."
-  (interactive)
-  (setq size (read-from-minibuffer
-	      (concat
-	       (propertize "Image Size: " 'face '(bold default)))))
-  (if (string= size "")
-      ;; 默认值是700
-      (insert (concat "#+ATTR_ORG: :width 700"))
-    (insert (concat "#+ATTR_ORG: :width " size)))
   )
 
 (defun dragonli-insert-in-line-formula-symbel-for-latex-formula ()
@@ -386,32 +366,32 @@ See `buffer-invisibility-spec'."
   (interactive)
   (projectile-serialize-cache)   ;; 把 cache 写到文件里
   (let* ((new-cache (with-temp-buffer
-                      (insert-file projectile-cache-file)
-                      (goto-char (point-min))
-                      (while (re-search-forward ")\\s-+\"\\(.*?\\)\"\\s-+(" nil t)
-                        ;; (message "prj : %S" (match-string 1))
-                        (let* ((prj-name (match-string 1)))
-                          (unless (file-exists-p prj-name)
-                            (message "clearing not found prj : %S" prj-name)
-                            (delete-region (- (point) (1- (length (match-string 0)))) (1- (point)))
-                            (backward-char 1)
-                            (when (re-search-forward "(\\(.*?\\))" nil nil)
-                              ;; (message "files : %s" (match-string 1))
-                              (delete-region (- (point) (length (match-string 0))) (point))
-                              ))))
-                      (buffer-string))))
+		      (insert-file projectile-cache-file)
+		      (goto-char (point-min))
+		      (while (re-search-forward ")\\s-+\"\\(.*?\\)\"\\s-+(" nil t)
+			;; (message "prj : %S" (match-string 1))
+			(let* ((prj-name (match-string 1)))
+			  (unless (file-exists-p prj-name)
+			    (message "clearing not found prj : %S" prj-name)
+			    (delete-region (- (point) (1- (length (match-string 0)))) (1- (point)))
+			    (backward-char 1)
+			    (when (re-search-forward "(\\(.*?\\))" nil nil)
+			      ;; (message "files : %s" (match-string 1))
+			      (delete-region (- (point) (length (match-string 0))) (point))
+			      ))))
+		      (buffer-string))))
     (f-write-text new-cache 'utf-8 projectile-cache-file)
     ;; 从文件更新到 cache 中, 这样在关闭emacs 后才不会使改动丢失
     (setq projectile-projects-cache
-          (or (projectile-unserialize projectile-cache-file)
-              (make-hash-table :test 'equal)))))
+	  (or (projectile-unserialize projectile-cache-file)
+	      (make-hash-table :test 'equal)))))
 
 (defun dragonli-eaf-search-bing-other-window ()
   "Search the keyword in Bing by EAF in other window."
   (interactive)
   (setq keyword (read-from-minibuffer
-	      (concat
-	       (propertize "Which you want search: " 'face '(bold default)))))
+		 (concat
+		  (propertize "Which you want search: " 'face '(bold default)))))
   ;; (concat "https://cn.bing.com/search?q" search)
   (eaf-open-browser-other-window (concat "https://cn.bing.com/search?q=" keyword))
   )
@@ -420,12 +400,97 @@ See `buffer-invisibility-spec'."
   "Search the keyword in Bing by EAF in current window."
   (interactive)
   (setq keyword (read-from-minibuffer
-	      (concat
-	       (propertize "Which you want search: " 'face '(bold default)))))
+		 (concat
+		  (propertize "Which you want search: " 'face '(bold default)))))
   ;; (concat "https://cn.bing.com/search?q" search)
   (eaf-open-browser (concat "https://cn.bing.com/search?q=" keyword))
   )
 
+
+;; from: https://github.com/manateelazycat/awesome-tab
+;; winum users can use `winum-select-window-by-number' directly.
+(defun my-select-window-by-number (win-id)
+  "Use `ace-window' to select the window by using window index.
+WIN-ID : Window index."
+  (let ((wnd (nth (- win-id 1) (aw-window-list))))
+    (if wnd
+	(aw-switch-to-window wnd)
+      (message "No such window."))))
+
+(defun my-select-window ()
+  (interactive)
+  (let* ((event last-input-event)
+	 (key (make-vector 1 event))
+	 (key-desc (key-description key)))
+    (my-select-window-by-number
+     (string-to-number (car (nreverse (split-string key-desc "-")))))))
+
+;; hydra
+(defun toggle-window-split ()
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+	     (next-win-buffer (window-buffer (next-window)))
+	     (this-win-edges (window-edges (selected-window)))
+	     (next-win-edges (window-edges (next-window)))
+	     (this-win-2nd (not (and (<= (car this-win-edges)
+					 (car next-win-edges))
+				     (<= (cadr this-win-edges)
+					 (cadr next-win-edges)))))
+	     (splitter
+	      (if (= (car this-win-edges)
+		     (car (window-edges (next-window))))
+		  'split-window-horizontally
+		'split-window-vertically)))
+	(delete-other-windows)
+	(let ((first-win (selected-window)))
+	  (funcall splitter)
+	  (if this-win-2nd (other-window 1))
+	  (set-window-buffer (selected-window) this-win-buffer)
+	  (set-window-buffer (next-window) next-win-buffer)
+	  (select-window first-win)
+	  (if this-win-2nd (other-window 1))))
+    (user-error "`toggle-window-split' only supports two windows")))
+
+;; org-download
+;; win11下org-download的函数无法使用，网上有人提供了解决方案
+(defun org-screenshot-on-windows11 ()
+  (interactive)
+  (setq full-file-name (file-name-sans-extension (file-name-nondirectory buffer-file-name)))
+  ;; 如果文件名的长度小于14,放到mainImage文件夹下面
+  (if (< (length full-file-name) 14)
+      (setq before-file-name-part "main")
+    ;;否则,判断文件中是否含有中文(专门给org roam做的优化,不通用,但是也不想改了)
+    (if (string-match "\\cc" full-file-name)
+	(setq before-file-name-part  (substring (file-name-sans-extension (file-name-nondirectory buffer-file-name)) 0 14))
+      (setq before-file-name-part (substring (file-name-sans-extension (file-name-nondirectory buffer-file-name)) 15))))
+  ;; 自己改动的地方，源代码：(setq imagefile (concat "./" before-file-name-part "Image/"))
+  (setq imagefile (concat "./images/org_download/"))
+  (unless (file-exists-p imagefile)
+    (make-directory imagefile))
+  (setq filename (concat (make-temp-name (concat imagefile
+						 (format-time-string "%Y%m%d_%H%M%S_")))
+			 ".png"))
+  (shell-command (concat "powershell -command \"Add-Type -AssemblyName System.Windows.Forms;if ($([System.Windows.Forms.Clipboard]::ContainsImage())) {$image = [System.Windows.Forms.Clipboard]::GetImage();[System.Drawing.Bitmap]$image.Save('"
+			 filename "',[System.Drawing.Imaging.ImageFormat]::Png); Write-Output 'clipboard content saved as file'} else {Write-Output 'clipboard does not contain image data'}\""))
+  (insert (concat "[[file:" filename "]]"))
+  ;; (org-display-inline-images)
+  )
+
+;; 在使用org-download时加上对图片大小的设置
+(defun dragonli-insert-image ()
+  "Insert the image in org mode by `org-download'."
+  (interactive)
+  (setq size (read-from-minibuffer
+	      (concat
+	       (propertize "Image Size: " 'face '(bold default)))))
+  (if (string= size "")
+      ;; 默认值是1000
+      (insert (concat "#+ATTR_ORG: :width 1000"))
+    (insert (concat "#+ATTR_ORG: :width " size)))
+  (insert "\n")
+  (org-screenshot-on-windows11)
+  )
 
 (provide 'init-funcs)
 ;;; init-funcs.el ends here

@@ -1,0 +1,23 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("org-capture-last-stored-marker"
+ (filename . "c:/Users/dongyinghua/Nutstore/1/org_gtd/Schedules.org")
+ (front-context-string . "** DOING 给《漫画通信信")
+ (rear-context-string . "024-08-08 Thu>\n\n")
+ (position . 1702)
+ (last-modified 26292 7466 283203 0))
+("org-refile-last-stored"
+ (filename . "c:/Users/dongyinghua/Nutstore/1/org_gtd/Schedules.org")
+ (front-context-string . "** DOING 给《漫画通信信")
+ (rear-context-string . "on 10:04]\n:END:\n")
+ (position . 981)
+ (last-modified 26292 7494 216607 0))
+("org-capture-last-stored"
+ (filename . "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/2024100910_公司内部各种工作流程记录.org")
+ (front-context-string)
+ (rear-context-string . "e: 公司内部各种工作流程记录\n")
+ (position . 101)
+ (last-modified 26373 60890 920376 0))
+)

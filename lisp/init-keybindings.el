@@ -10,9 +10,8 @@
 
 (require 'init-funcs)
 
-;;修改快捷键映射
-(setq mac-option-modifier 'meta
-      mac-command-modifier 'super)
+;; windows快捷键设置
+(setq w32-apps-modifier 'super)       ; 通过SharpKeys改成了 Applications
 
 ;; ---------------------------------------------------------------------------
 ;;快捷键绑定
@@ -48,6 +47,8 @@
 (global-set-key (kbd "C-c c") 'dragonli-insert-cite-for-latex-formula)
 
 ;; (define-key global-map (kbd "s-s") 'dragonli-save-file)
+
+(global-set-key (kbd "C-c p") 'dragonli-insert-image)
 
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

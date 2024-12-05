@@ -1,84 +1,43 @@
-#+OPTIONS: toc:nil
 #+STARTUP: content
-
-* 简介
-本文档是对配置文件的解释。
-
-* 配置模块化原则
-init-packages.el        # 插件管理
-init-ui.el              # 视觉层配置
-init-better-defaults.el # 增强内置功能
-init-keybindings.el     # 快捷键绑定
-init-org.el             # Org 模式相关的全部设定
-custom.el              # 存放使用编辑器接口产生的配置信息
-
-* 字体设置
-在 init-custom.el 中定义了两个字符串变量 english-font 和 chinese-font，分别表示 Emacs 中所使用的中英文字体名称。通过在 init-font.el 中调用函数 set-font 来修改 Emacs 的字体。set-font 函数定义如下：
-#+begin_src elisp
-  ;; init-font.el
-  (defun set-font (english-font chinese-font)
-    "Function for setting fonts.
-  The `ENGLISH-FONT' and `CHINESE-FONT' are respectively
-  the names of the English and Chinese font of Emacs."
-    (interactive)
-    ;;Setting English Font. Notice: the unit of `height' is 1/10 pt, so the 200 is 20 pt.
-    (set-face-attribute
-     'default nil :family english-font :height 200 :weight 'normal)
-    ;;Chinese Font
-    (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font)
-                        charset
-                        (font-spec :family chinese-font)))
-    ;; tune rescale so that Chinese character width = 2 * English character width
-    (setq face-font-rescale-alist '((english-font . 1.0) (chinese-font . 1.23)))
-    )
-#+end_src
-
-* 主题设置
-定义了一个字符串变量 my-theme，其表示 Emacs 当前的主题名称。在 init-ui.el 中修改 my-theme 变量为自己想加载的主题名称，然后通过 load-theme 函数加载新的主题。
-
-* consult-ripgrep
-** 依赖
-*** ripgrep - [[https://github.com/BurntSushi/ripgrep#installation][GitHub - ripgrep]]
-在 macOS 上安装 ripgrep，代码如下：
-#+begin_src terminal
-  brew install ripgrep
-#+end_src
-
-* 背景虚化
-** loop-alpha 函数
-*** 代码详解
-- lambda 返回一个匿名的函数，就将它假设为 fun(a,ab)，上边的语句就近似为“(fun (car h) (car (cdr h)))”，即 (car h) 和 (car (cdr h)) 为传入函数 fun 的两个参数。
-- let 定义了一个局部变量 h，值为(car alpha-list)，在 let 语句之外不没有定义。
-- ⚠️ 执行这个函数之后只是临时修改了 set-frame-paramete，重启后设置消失。如果想让设置永久生效，则需要直接在配置文件中修改。
-- ⚠️ 应该不能在 Emacs 启动后，通过函数来修改配置，即无法修改配置文件。利用函数只能暂时修改配置，重启之后配置重置。
-  
-*** 代码
-loop-alpha 函数来自 [[https://www.emacswiki.org/emacs/alpha-window][EmacsWiki - alpha-window]]，代码如下：
-#+begin_src elisp
-  (setq alpha-list '((100 100) (95 65) (85 55) (75 45) (65 35)))
-
-  (defun loop-alpha ()
-    (interactive)
-    (let ((h (car alpha-list)))                ;; head value will set to
-      ((lambda (a ab)
-         (set-frame-parameter (selected-frame) 'alpha (list a ab))
-         (add-to-list 'default-frame-alist (cons 'alpha (list a ab)))
-         ) (car h) (car (cdr h)))
-      (setq alpha-list (cdr (append alpha-list (list h))))
-      )
-    )
-#+end_src
-
-** 修改配置文件
-利用 loop-alpha 函数无法永久修改配置，因此需要在配置文件中加入如下代码：
-#+begin_src elisp
-  (set-frame-parameter (selected-frame) 'alpha '(95 65))
-#+end_src
-
-* Q&A
-** Emacs 界面显示出现乱码
-*** 解决办法
-M-x all-the-icons-install-fonts
-
-
+* doom-modeline图标乱码问题
+- doom-modeline新版不支持all-the-icons了，改为支持nerd-icons
+- win下安装nerd-icons时，需要手动安装到win上：
+  在官网下载Symbols Nerd Font
+* consult-locate
+** 简介
+1) 在Emacs上实现与windows的everything一样的功能
+2) 借鉴子龙山人的21天学会Emacs
+** 配置步骤
+1) 需要在everthing的官网下载es.exe，然后将es.exe放到emacs安装目录下的bin目录中
+2) 在配置文件中加上如下代码：
+   #+begin_src elisp
+     ;; 配置搜索中文
+     (progn
+       (setq consult-locate-args (encode-coding-string "es.exe -i -p -r" 'gbk))
+       (add-to-list 'process-coding-system-alist '("es" gbk . gbk)))
+   #+end_src
+** 使用拼音进行搜索
+1) 子龙山人的配置在使用consult相关命令时才会生效，例如consult-line、consult-locate、consult-ripgrep等
+2) 使用其他命令的情况下也会生效，例如find-file、org-insert-link等
+3) 可以使用命令toggle-chinese-search开启或关闭这个功能
+* 中文乱码问题
+** 问题描述
+1) 在`buffer-file-coding-system'设置为`utf-8'的前提下，创建org文件，创建后的org文件的编码为`utf-8'。但是重启Emacs后，之前创建的org文件编码变为`CHINESE-GBK'，同时文件中的中文显示为乱码。
+2) org roam创建的文件为CHINESE-GBK编码。
+3) 保存某些文件时Emacs让你选择当前文件编码。
+   
+** 解决方法
+1) 开启windows的“Beta 版：使用Unicode UTF-8 供全球语言支持”
+2) 在配置文件中加入如下代码（借鉴：[[https://emacs-china.org/t/emacs-utf-8/21143/28][🔗]]）：
+   #+begin_src elisp
+     (set-charset-priority 'unicode)
+     (prefer-coding-system 'utf-8)
+     (setq system-time-locale "C")
+   #+end_src
+* win11下org mode中latex公式预览问题
+** 问题描述
+在执行函数“org-latex-preview”后没有反应，无法预览，并报错“dvi文件无法产生”
+** 问题原因
+win11的Administrator账号名太长。Windows对文件的一个特性导致 admini~1=administrator 即：当目录/文件 文件名长度大于8位时，可采用类似于admini~1的形式进入第一个目录，那么此处的字符1就表示以admini开头的第一个目录，如果有 admini~2 ,那么2就是第二个目录。
+** 解决方式
+自定义环境变量中TEMP和TMP的值

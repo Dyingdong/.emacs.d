@@ -1,0 +1,213 @@
+((:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "ab/7dfcfc-1955-475c-a4c0-06ae9b090fbd" :associated
+  (:hash "b9dec624de5291a66fa5f45569fb2eb0" :file "f:/工作/DOING/CSM-TH标准条款检查确认/注意.org" :inode 1688849860268397)
+  :expiry 30)
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "e5/53e848-468b-4e55-a514-e624a5e37c80" :associated
+  (:hash "ae5ee55e04fb8c7fb83bc6da147ccecb" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-18-Fri-Work-Weekly.org" :inode 33214047251862567)
+  :expiry 30 :last-access 1729483128.961268 :last-access-hr "2024-10-21T11:58:48+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "7f/d4185e-a23b-4a5d-937b-1220e07672af" :associated
+  (:hash "9e11ffb76d03ee7afd88b1533628db23" :file "f:/工作/DOING/CSM-TH标准条款检查确认/[A]操作说明书修改/截图注意事项.org" :inode 1407374883558035)
+  :expiry 30 :last-access 1729483128.970812 :last-access-hr "2024-10-21T11:58:48+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "61/8cd853-b783-4b10-b29b-e976f0fe1c39" :associated
+  (:hash "b6881cdb92a07330d7ca93c301efd02e" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-18-Fri-Work-Diary.org" :inode 7036874417770894)
+  :expiry 30 :last-access 1729483128.979271 :last-access-hr "2024-10-21T11:58:48+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "b0/b926c6-40f5-4f1b-b4ce-36ada8f70382" :associated
+  (:hash "e48795f1ff4ea6cf2fdb7a721be0e619" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-17-Thu-Work-Diary.org" :inode 1407374883555686)
+  :expiry 30 :last-access 1729483128.988113 :last-access-hr "2024-10-21T11:58:48+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "94/9764e9-7717-4240-9b38-3b493b5bed51" :associated
+  (:hash "787e2d470424dc51acd22ca862db2e9a" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-16-Wed-Work-Diary.org" :inode 562949953524238)
+  :expiry 30 :last-access 1729483128.995313 :last-access-hr "2024-10-21T11:58:48+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "85/314b61-84f7-4041-ac08-18461f935b58" :associated
+  (:hash "94acd64a35dc4c2da15f12fcc7aec089" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/2024082110_emacs_使用手册.org" :inode 844424930156780)
+  :expiry 30 :last-access 1728974855.035686 :last-access-hr "2024-10-15T14:47:35+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "45/1672bc-c9ba-40a4-a472-ae061edee64d" :associated
+  (:hash "d41d8cd98f00b204e9800998ecf8427e" :file "f:/iCloudDrive/iCloudDrive/Documents/工作/党员工作/预备党员/预备党员思想汇报/20241206.org")
+  :expiry 30 :last-access 1728974855.045976 :last-access-hr "2024-10-15T14:47:35+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "d4/8cceb4-6972-47d0-ab83-7463beffff28" :associated
+  (:hash "d41d8cd98f00b204e9800998ecf8427e" :file "f:/iCloudDrive/iCloudDrive/Documents/工作/党员工作/预备党员/预备党员思想汇报/20240906.org")
+  :expiry 30 :last-access 1728974855.056279 :last-access-hr "2024-10-15T14:47:35+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "34/42884d-c78b-4c4a-82c6-e22bb3e1f965" :associated
+  (:hash "f4cf9ecc4f57a92481785cd4410a2ec2" :file "f:/iCloudDrive/iCloudDrive/Documents/工作/党员工作/预备党员/预备党员思想汇报/202404_202406.org" :inode 281474976722476)
+  :expiry 30 :last-access 1728974855.068926 :last-access-hr "2024-10-15T14:47:35+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "9d/d5a66d-1f50-4d68-9c35-c412050858aa" :associated
+  (:hash "7eb801cc0941011c5a1d32405cfef7e2" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-15-Tue-Work-Diary.org" :inode 1970324837066242)
+  :expiry 30 :last-access 1729483129.005647 :last-access-hr "2024-10-21T11:58:49+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "3e/c6da00-76c2-4314-bd25-2e2c0ebe36ed" :associated
+  (:hash "3df0fb190f9e47fe620692ad3081abaf" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-14-Mon-Work-Diary.org" :inode 1688849860355585)
+  :expiry 30 :last-access 1729483129.013403 :last-access-hr "2024-10-21T11:58:49+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "93/494067-0c75-4c83-8db9-c2d3da9527d8" :associated
+  (:hash "8b1930e024a8e32606663e9ed1c6fe94" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-12-Sat-Work-Diary.org" :inode 3096224743908334)
+  :expiry 30 :last-access 1729155691.387289 :last-access-hr "2024-10-17T17:01:31+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "7d/95b0b1-a1bb-4702-a875-33e170cd93ef" :associated
+  (:hash "913500cc2de26ee080df1c7a3aa507b4" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-11-Fri-Work-Diary.org" :inode 2814749767197317)
+  :expiry 30 :last-access 1728637373.125525 :last-access-hr "2024-10-11T17:02:53+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "95/56433c-8037-4e31-9081-b6032a165017" :associated
+  (:hash "52ae1f08fc149191db47c65933b24633" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-11-Fri-Work-Weekly.org" :inode 1970324837065348)
+  :expiry 30 :last-access 1729483129.02359 :last-access-hr "2024-10-21T11:58:49+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "5b/2f763b-91dc-4897-a427-835828a3fc38" :associated
+  (:hash "ed3c480b4f169d8c021d70c4835f769c" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-10-Thu-Work-Diary.org" :inode 3096224743893898)
+  :expiry 30 :last-access 1728637373.146125 :last-access-hr "2024-10-11T17:02:53+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "50/6e9c3e-e309-4098-a129-8cb44a78bd86" :associated
+  (:hash "05d7789fd390982597f702f4b11dea51" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-09-29-Sun-Work-Weekly.org" :inode 1407374883558400)
+  :expiry 30 :last-access 1729473095.242908 :last-access-hr "2024-10-21T09:11:35+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "12/100272-ef49-46c0-9e7e-1c07df7eb0d6" :associated
+  (:hash "ecb32b01ecf20d12c31c20d43e7b6525" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/diary/2024-10-09-Wed-Work-Diary.org" :inode 2251799813690361)
+  :expiry 30 :last-access 1728637373.154309 :last-access-hr "2024-10-11T17:02:53+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "90/201ff2-7f88-4ae0-be06-d48c0f2b2220" :associated
+  (:hash "996eb660c85a075b0518e34a6f97eefd" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/2024100910_公司内部各种工作流程记录.org" :inode 1407374883558334)
+  :expiry 30 :last-access 1728443596.428749 :last-access-hr "2024-10-09T11:13:16+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "9a/ab022b-fb2a-45fb-8c9c-84578a2c0487" :associated
+  (:hash "4a576950a16a34fd5ecad177cfa2f53b" :file "f:/iCloudDrive/iCloudDrive/Documents/Org/org-roam-directory/2023072401_javaweb学习笔记.org" :inode 281474976720393)
+  :expiry 30 :last-access 1728442473.00308 :last-access-hr "2024-10-09T10:54:33+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "be/70e835-d0f6-46dc-a9d2-824fffb166c6" :associated
+  (:hash "3e3517230a60b9bbe46d5f036e17e37b" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/2024091809_springboot学习笔记.org" :inode 1688849860346696)
+  :expiry 30 :last-access 1728974855.097426 :last-access-hr "2024-10-15T14:47:35+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "4a/15de3a-3570-4069-968f-6200c317671c" :associated
+  (:hash "0e8c45c6e5e8caf5a3e93a2fcea90224" :file "c:/Users/dongyinghua/Nutstore/1/org_gtd/Schedules.org_archive" :inode 13510798882544934)
+  :expiry 30 :last-access 1728637373.163959 :last-access-hr "2024-10-11T17:02:53+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "1f/27a92e-a53b-4221-8cfb-8c48baaa555a" :associated
+  (:hash "0555f2a2e7d32ea86ec1e5649f53eb32" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/2024082110_2024_专利工作.org_archive" :inode 844424930212083)
+  :expiry 30 :last-access 1728442473.592785 :last-access-hr "2024-10-09T10:54:33+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "9f/f7da5c-5f3f-4414-ad49-bf70c1e429d3" :associated
+  (:hash "b3d67cab080ba9aa780428f9f8248b29" :file "f:/iCloudDrive/iCloudDrive/Documents/Org/org-roam-directory/2024051919_蚂蚁摄影_风光前期课程.org" :inode 9007199254816426)
+  :expiry 30 :last-access 1728983034.460817 :last-access-hr "2024-10-15T17:03:54+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "83/12d05f-6b6d-4dde-a4c3-8380801acef5" :associated
+  (:hash "82fbd2c73981002c18b7031580d41527" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/2024082110_csm_th_系统转型.org" :inode 844424930164640)
+  :expiry 30 :last-access 1728442472.807443 :last-access-hr "2024-10-09T10:54:32+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "c3/041d56-d5f2-42ab-906d-7ce278027d20" :associated
+  (:hash "8cc1ef70cd068c220c40d078138a23a9" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/2024082110_2024_专利工作.org" :inode 1407374883585580)
+  :expiry 30 :last-access 1729236101.612043 :last-access-hr "2024-10-18T15:21:41+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "60/7261f5-8b86-41fa-bac7-a9323d6d6f35" :associated
+  (:hash "d5a67093f89cbc03342fe156f5cd10c6" :file "f:/iCloudDrive/iCloudDrive/win_emacs_org_roam/2024082110_专业名词表.org" :inode 1125899906874037)
+  :expiry 30 :last-access 1729236103.449171 :last-access-hr "2024-10-18T15:21:43+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "16/ccdada-bf15-4eb0-911e-bf860988dc32" :associated
+  (:hash "03da3ed90d76152dcf7db1ebe09d3dd1" :file "c:/Users/dongyinghua/AppData/Roaming/.emacs.d/tools/gptel/README.org" :inode 844424930651958)
+  :expiry 30)
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "a0/5481c6-b30d-4ad7-9cae-b8e25c28cf11" :associated
+  (:hash "f709fd1197324751e1d8506016119001" :file "d:/emacs/emacs-29.4/share/emacs/29.4/etc/ORG-NEWS" :inode 1125899906850228)
+  :expiry 30)
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "cf/f09ecc-9105-42d1-af9d-e745c546fd1a" :associated
+  (:hash "4cefba436a9a9dab3b3c4aa50c4ffb04" :file "c:/Users/dongyinghua/Nutstore/1/org_gtd/Schedules.org" :inode 9570149208168028)
+  :expiry 30 :last-access 1729241978.5887 :last-access-hr "2024-10-18T16:59:38+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "22/49bcbd-8f2e-40c0-98eb-c93124f8b449" :associated
+  (:hash "8f1013a5adaf0c704052621b3d701380" :file "c:/Users/dongyinghua/Nutstore/1/org_gtd/Projects.org_archive" :inode 1688849860772814)
+  :expiry 30 :last-access 1729472986.362138 :last-access-hr "2024-10-21T09:09:46+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "ae/101902-bb48-4272-a08b-883dad7f1c8e" :associated
+  (:hash "12962677c7895125243b5d19f032af38" :file "c:/Users/dongyinghua/Nutstore/1/org_gtd/Projects.org" :inode 3659174697657578)
+  :expiry 30 :last-access 1729483129.037928 :last-access-hr "2024-10-21T11:58:49+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "41/3a37b4-085b-4306-847b-aa3ee9fbe111" :associated
+  (:hash "1216b0dcce69c7921b276e618cac1cf1" :file "c:/Users/dongyinghua/Nutstore/1/org_gtd/Inbox.org" :inode 3096224744236254)
+  :expiry 30 :last-access 1729241978.603939 :last-access-hr "2024-10-18T16:59:38+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "6b/b7642b-6615-4181-975d-b218747b30f6" :associated
+  (:hash "d41d8cd98f00b204e9800998ecf8427e" :file "c:/Users/dongyinghua/Nutstore/1/org_gtd/TODOs.org" :inode 562949953921868)
+  :expiry 30 :last-access 1729241978.60908 :last-access-hr "2024-10-18T16:59:38+0800")
+ (:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "f5/6cfa3c-22a0-4d06-8d24-4d8375e89417" :associated
+  (:hash "b4e4e18fca981e123e65e75e1c3d7423" :file "c:/Users/dongyinghua/AppData/Roaming/.emacs.d/README.org" :inode 844424930652147)
+  :expiry 30 :last-access 1727592169.080449 :last-access-hr "2024-09-29T14:42:49+0800")
+ (:container
+  ((index "3.1"))
+  :persist-file "87/3b2614-e241-4eb5-ba53-e069ccf77121" :associated nil :expiry never :last-access 1729483129.054159 :last-access-hr "2024-10-21T11:58:49+0800"))
