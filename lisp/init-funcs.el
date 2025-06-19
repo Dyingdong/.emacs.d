@@ -329,10 +329,10 @@ See `buffer-invisibility-spec'."
   (lsp-bridge-mode)
   )
 
-(defun dragonli-insert-setting-of-image ()
-  "Insert the setting of image in org mode."
-  (interactive)
-  (insert "#+ATTR_ORG: :width 900"))
+;; (defun dragonli-insert-setting-of-image ()
+;;   "Insert the setting of image in org mode."
+;;   (interactive)
+;;   (insert "#+ATTR_ORG: :width 900"))
 
 (defun org-bold-highlight ()
   "利用`highlight-regexp'高亮指定的正则表达式."
@@ -355,8 +355,21 @@ See `buffer-invisibility-spec'."
 	       (propertize "Image Size: " 'face '(bold default)))))
   (if (string= size "")
       ;; 默认值是700
-      (insert (concat "#+ATTR_ORG: :width 700"))
+      (insert (concat "#+ATTR_ORG: :width 500"))
     (insert (concat "#+ATTR_ORG: :width " size)))
+  )
+
+(defun dragonli-insert-image ()
+  "Insert the image in org mode."
+  (interactive)
+  (setq size (read-from-minibuffer
+	      (concat
+	       (propertize "Image Size: " 'face '(bold default)))))
+  (if (string= size "")
+      (insert (concat "#+ATTR_ORG: :width 600"))
+    (insert (concat "#+ATTR_ORG: :width " size)))
+  (insert "\n")
+  (org-download-clipboard)
   )
 
 (defun dragonli-insert-in-line-formula-symbel-for-latex-formula ()

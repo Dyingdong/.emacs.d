@@ -101,7 +101,6 @@
 (require 'acm-backend-tempel)
 (require 'acm-backend-telega)
 (require 'acm-backend-tabnine)
-(require 'acm-backend-tailwind)
 (require 'acm-backend-citre)
 (require 'acm-backend-ctags)
 (require 'acm-backend-codeium)
@@ -158,12 +157,14 @@
 
 (defcustom acm-candidate-match-function 'regexp-quote
   "acm candidate match function."
-  :type '(choice (const regexp-quote)
-                 (const orderless-literal)
-                 (const orderless-prefixes)
-                 (const orderless-flex)
-                 (const orderless-regexp)
-                 (const orderless-initialism))
+  :type '(choice
+          (const nil)
+          (const regexp-quote)
+          (const orderless-flex)
+          (const orderless-literal)
+          (const orderless-prefixes)
+          (const orderless-regexp)
+          (const orderless-initialism))
   :group 'acm)
 
 (defcustom acm-doc-frame-max-lines 20
@@ -189,6 +190,18 @@
                                                 "template-second-part-candidates"
                                                 "mode-second-part-candidates")
   "The merge order for completion backend."
+  :type 'list
+  :group 'acm)
+
+(defcustom acm-completion-mode-candidates-merge-order '("elisp-candidates"
+                                                        "lsp-candidates"
+                                                        "jupyter-candidates"
+                                                        "ctags-candidates"
+                                                        "citre-candidates"
+                                                        "org-roam-candidates"
+                                                        "file-words-candidates"
+                                                        "telega-candidates")
+  "The merge order for mode candidates."
   :type 'list
   :group 'acm)
 
@@ -370,7 +383,7 @@ So we use `minor-mode-overriding-map-alist' to override key, make sure all keys 
     ("org-roam"
      (when (org-in-regexp org-roam-bracket-completion-re 1)
        (cons (match-beginning 2)
-	     (match-end 2))))
+	         (match-end 2))))
     ("string"
      (cons (point)
            (save-excursion
@@ -389,19 +402,21 @@ So we use `minor-mode-overriding-map-alist' to override key, make sure all keys 
 (defun acm-get-input-prefix ()
   "Get user input prefix."
   (let* ((acm-input-bound-style (if (acm-in-roam-bracket-p)
-				    "org-roam"
-				  "ascii"))
-	 (bound (acm-get-input-prefix-bound)))
+				                    "org-roam"
+				                  "ascii"))
+	     (bound (acm-get-input-prefix-bound)))
     (if bound
         (buffer-substring-no-properties (car bound) (cdr bound))
       "")))
 
 (defun acm-candidate-fuzzy-search (keyword candidate)
   "Fuzzy search candidate."
-  (let ((result (funcall acm-candidate-match-function (downcase keyword))))
-    (string-match-p (cond ((stringp result) result)
-                          (t (rx-to-string result))) ;; If `rx'.
-                    (downcase candidate))))
+  (if acm-candidate-match-function
+      (let ((result (funcall acm-candidate-match-function (downcase keyword))))
+        (string-match-p (cond ((stringp result) result)
+                              (t (rx-to-string result))) ;; If `rx'.
+                        (downcase candidate)))
+    t))
 
 (defun acm-candidate-sort-by-prefix (keyword candidates)
   "Priority display of the candidates of the prefix matching."
@@ -501,16 +516,19 @@ Only calculate template candidate when type last character."
           (setq ctags-candidates (unless (acm-in-comment-p) (acm-backend-ctags-candidates keyword))))
         ;; Fetch syntax completion candidates.
         (setq lsp-candidates (unless (acm-in-comment-p) (acm-backend-lsp-candidates keyword)))
-        (setq mode-candidates (append
-                               (unless (acm-in-comment-p) (acm-backend-tailwind-candidates keyword))
-                               (unless (acm-in-comment-p) (acm-backend-elisp-candidates keyword))
-                               lsp-candidates
-                               jupyter-candidates
-                               ctags-candidates
-                               citre-candidates
-			       org-roam-candidates
-                               (acm-backend-search-file-words-candidates keyword)
-                               (acm-backend-telega-candidates keyword)))
+        (setq mode-candidates
+              (apply #'append (mapcar (lambda (mode-candidate-name)
+                                        (pcase mode-candidate-name
+                                          ("elisp-candidates" (unless (acm-in-comment-p) (acm-backend-elisp-candidates keyword)))
+                                          ("lsp-candidates" lsp-candidates)
+                                          ("jupyter-candidates" jupyter-candidates)
+                                          ("ctags-candidates" ctags-candidates)
+                                          ("citre-candidates" citre-candidates)
+			                              ("org-roam-candidates" org-roam-candidates)
+                                          ("file-words-candidates" (acm-backend-search-file-words-candidates keyword))
+                                          ("telega-candidates" (acm-backend-telega-candidates keyword))
+                                          ))
+                                      acm-completion-mode-candidates-merge-order)))
 
         (when (and (or
                     ;; Show snippet candidates if lsp-candidates length is zero.
@@ -602,10 +620,10 @@ The key of candidate will change between two LSP results."
          (candidates (or candidate (acm-update-candidates)))
          (menu-candidates (cl-subseq candidates 0 (min (length candidates) acm-menu-length)))
          (current-select-candidate-index (cl-position previous-select-candidate (mapcar 'acm-menu-index-info menu-candidates) :test 'equal))
-	 (acm-input-bound-style (if (acm-in-roam-bracket-p)
-				    "org-roam"
-				  "ascii"))
-	 (bounds (acm-get-input-prefix-bound)))
+	     (acm-input-bound-style (if (acm-in-roam-bracket-p)
+				                    "org-roam"
+				                  "ascii"))
+	     (bounds (acm-get-input-prefix-bound)))
     (cond
      ;; Hide completion menu if user type first candidate completely, except when candidate annotation is `emmet' or `snippet'.
      ((and (equal (length candidates) 1)
@@ -843,8 +861,11 @@ The key of candidate will change between two LSP results."
         ;; Build candidate line.
         (setq candidate-line
               (concat
-               ;; Icon text.
-               icon-text
+               ;; Icon.
+               (if acm-enable-icon
+                   icon-text   ; render icon if `acm-enable-icon' is t
+                 " ")   ; add left padding if `acm-enable-icon' is nil
+               ;; Index.
                (when acm-enable-quick-access
                  (if quick-access-key (concat quick-access-key ". ") "   "))
                ;; Candidate.

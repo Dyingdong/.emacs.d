@@ -48,6 +48,7 @@
 (global-set-key (kbd "C-c c") 'dragonli-insert-cite-for-latex-formula)
 
 ;; (define-key global-map (kbd "s-s") 'dragonli-save-file)
+(define-key global-map (kbd "C-z") nil)
 
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

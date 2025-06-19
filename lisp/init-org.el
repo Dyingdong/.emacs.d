@@ -37,6 +37,7 @@
   ;;(add-to-list 'org-structure-template-alist '("n" . "note"))
 
   ;; org-mode缩进
+  ;; (org-bars-mode)
   ;; org-bars-mode 开启时会自动开启 org-indent-mode
   ;;(setq org-startup-indented t)
 
@@ -117,125 +118,16 @@
     (apply orig-func args))
   (advice-add 'org-create-formula-image :around #'org-renumber-environment)
   
-  
-  (org-zotxt-mode)
-  
   ;; To speed up startup, don't put to init section
   (setq org-modules nil)     ;; Faster loading
   (setq org-startup-numerated t)
 
   (setq org-image-actual-width nil)
   (setq-default org-startup-with-inline-images t)
-
-  ;; org-mode for GTD
-  ;; todo dependencies
-  ;;(setq alert-default-style 'notifications)
-
-  ;; org-agenda
-  (load-library "find-lisp")
-  (setq org-agenda-files (find-lisp-find-files org-gtd-path "\.org$"))
-
-  (setq-default org-refile-targets '((org-gtd-path-projects :maxlevel . 5)
-				     (org-gtd-path-todos :maxlevel . 5)
-				     (org-gtd-path-schedule :maxlevel . 5)
-				     (org-gtd-path-inbox :maxlevel . 5)
-				     ("~/Documents/Org/org-roam-directory/2022070322_科研笔记.org" :maxlevel . 5)
-				     ))
-  ;; (setq org-refile-targets '(("~/Documents/Org/GTD/Projects.org" :maxlevel . 5)
-  ;;                            ("~/Documents/Org/GTD/TODOs.org" :maxlevel . 5)
-  ;;                            ("~/Documents/Org/GTD/Schedule.org" :maxlevel . 5)
-  ;;                            ("~/Documents/Org/GTD/Inbox.org" :maxlevel . 5)
-  ;; 			     ("~/Documents/Org/org-roam-directory/2022070322_科研笔记.org" :maxlevel . 5)
-  ;;                            ))
-  (setq-default org-deadline-warning-days 30)
-  
   
-  ;; org-capture
-  ;; 快捷键“C-c x”
-  (setq-default org-capture-templates
-		'(("i" "Inbox" entry
-		   (file+headline org-gtd-path-inbox "Tasks")
-		   "* TODO %?\n  %i\n"
-		   :empty-lines 0)
-		  ("s" "Schedule" entry
-		   (file+headline org-gtd-path-schedule "Schedule")
-		   "* TODO %?\n  %i\n"
-		   :empty-lines 1)
-		  ("t" "TODOs" entry
-		   (file+headline org-gtd-path-todos "TODOs")
-		   "* TODO %?\n  %i\n"
-		   :empty-lines 1)
-		  ("p" "Projects" entry
-		   (file+headline org-gtd-path-projects "Projects")
-		   "* TODO %?\n  %i\n"
-		   :empty-lines 1)
-		  )
-		)
-
-  ;; 设置任务流程
-  ;; This is achieved by adding special markers ‘!’ (for a timestamp)
-  ;; or ‘@’ (for a note with timestamp) in parentheses after each keyword.
-  (setq org-todo-keywords
-	'((sequence "DOING(i)" "TODO(t)" "HANGUP(h@/!)" "|" "DONE(d!)" "CANCEL(c@)"))
-	org-todo-keyword-faces '(("TODO" . (:foreground "#F4606C" :weight blod))
-				 ("DOING" . (:foreground "#19CAAD" :weight blod))
-				 ("HANGUP" . (:foreground "#F4606C" :weight bold))
-				 ("DONE" . (:foreground "#939391" :weight blod))
-				 ("CANCEL" . (:background "gray" :foreground "black"))))
-
-  (setq org-priority-faces '((?A . error)
-                             (?B . warning)
-                             (?C . success)))
-
-  ;; need repeat task and properties
-  (setq org-log-done t)
-  (setq org-log-into-drawer t)
-
-  (setq-default org-agenda-span 'day)
-  ;;(add-hook org-capture-mode-hook 'evil-mode)
-
-  (setq-default org-agenda-custom-commands
-		'(("i" "重要且紧急的事" ;; 不显示没有加org-todo-keywords以及keyword是DONE的任务
-		   ((tags-todo "+PRIORITY=\"A\"")))
-		  ;; ...other commands here
-		  ))
   
   ;; org tag 对齐
-
-  ;; org for beamer
-  (eval-after-load "ox-latex"
-
-    ;; update the list of LaTeX classes and associated header (encoding, etc.)
-    ;; and structure
-    '(add-to-list 'org-latex-classes
-		  `("beamer"
-		    ,(concat "\\documentclass[presentation]{beamer}\n"
-			     "[DEFAULT-PACKAGES]"
-			     "[PACKAGES]"
-			     "[EXTRA]\n")
-		    ("\\section{%s}" . "\\section*{%s}")
-		    ("\\subsection{%s}" . "\\subsection*{%s}")
-		    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-  (setq-default org-latex-src-block-backend t)
-  ;;     (setq org-emphasis-alist (quote (("*" bold "<b>" "</b>")
-  ;;                                       ("/" italic "<i>" "</i>")
-  ;;                                       ("_" underline "<span
-  ;; style=\"text-decoration:underline;\">" "</span>")
-  ;;                                       ("=" org-code "<code>" "</code>"
-  ;;                                         verbatim)
-  ;;                                       ("~" org-verbatim "<code>" "</code>"
-  ;;                                         verbatim)
-  ;;                                       ("+" (:strike-through t) "<del>" "</del>")
-  ;;                                       ("@" org-warning "<b>" "</b>")))
-  ;;       org-export-latex-emphasis-alist (quote
-  ;;                                         (("*" "\\textbf{%s}" nil)
-  ;;                                           ("/" "\\emph{%s}" nil)
-  ;;                                           ("_" "\\underline{%s}" nil)
-  ;;                                           ("+" "\\texttt{%s}" nil)
-  ;;                                           ("=" "\\verb=%s=" nil)
-  ;;                                           ("~" "\\verb~%s~" t)
-  ;;                                           ("@" "\\alert{%s}" nil))))
-
+  
   ;; 单独设置org标题字体大小，https://emacs-china.org/t/org/12869
   ;; 设置org标题1-8级的字体大小和颜色，颜色摘抄自monokai
   ;; 希望org-mode标题的字体大小和正文一致，设成1.0， 如果希望标题字体大一点可以设成1.2
@@ -261,6 +153,9 @@
      (plantuml . t)
      (R . t)))
 
+  ;; 标题下的列表就可以像标题一样折叠了
+  (setq org-cycle-include-plain-lists 'integrate)
+
   ) ; use-package org ends here
 
 (use-package hi-lock
@@ -272,13 +167,14 @@
   (add-hook 'org-mode-hook 'org-bold-highlight)
   )
 
-;; (use-package org-superstar
-;;   :if (and (display-graphic-p) (char-displayable-p ?◉))
-;;   :hook (org-mode . org-superstar-mode)
-;;   :config
-;;   (setq org-superstar-headline-bullets-list '("▼")) ; no bullets
-;;   (setq org-ellipsis " ▼ ")
-;;   )
+(use-package org-superstar
+  :ensure t
+  :if (and (display-graphic-p) (char-displayable-p ?◉))
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-superstar-headline-bullets-list '("▼")) ; no bullets
+  (setq org-ellipsis " ▾")
+  )
 
 ;; https://github.com/casouri/valign
 ;; 表格对齐
@@ -330,14 +226,6 @@
 				       nil
 				       t)))) ; use-package org-appear
 
-(use-package zotxt
-  :ensure t
-  :after org org-roam
-  :defer t
-  :hook
-  (org . org-zotxt-mode)
-  (org-roam-mode . org-zotxt-mode))
-
 (use-package org-fragtog
   :ensure t
   :defer t
@@ -360,51 +248,15 @@
 	'dummy-org-download-annotate-function)
   )
 
-(use-package ox-beamer
-  :ensure nil
-  :defer t
-  :hook (org-mode . (lambda () (require 'ox-beamer)))
-  )
-
-;; Reveal.js 幻灯片
-(use-package org-re-reveal
-  :ensure t
-  ;;:defer t
-  ;;:hook (after-init . (lambda () (require 'org-re-reveal)))
-  :init
-  ;; reveal.js 的根目录
-  (setq org-re-reveal-root "file:///Users/dragonli/reveal.js"))
-
-
 (use-package ox-hugo
-  :ensure t   ;Auto-install the package from Melpa
-  :pin melpa  ;`package-archives' should already have ("melpa" . "https://melpa.org/packages/")
-  :after ox)
-
-(with-eval-after-load 'org-capture
-  (defun org-hugo-new-subtree-post-capture-template ()
-    "Returns `org-capture' template string for new Hugo post.
-See `org-capture-templates' for more information."
-    (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
-	   (fname (org-hugo-slug title)))
-      (mapconcat #'identity
-		 `(
-		   ,(concat "* TODO " title)
-		   ":PROPERTIES:"
-		   ,(concat ":EXPORT_FILE_NAME: " fname)
-		   ":END:"
-		   "\n\n")          ;Place the cursor here finally
-		 "\n")))
-
-  (add-to-list 'org-capture-templates
-	       '("h"                ;`org-capture' binding + h
-		 "Hugo post"
-		 entry
-		 ;; It is assumed that below file is present in `org-directory'
-		 ;; and that it has a "Blog Ideas" heading. It can even be a
-		 ;; symlink pointing to the actual location of all-posts.org!
-		 (file+headline "/Users/dragonli/Documents/Blogs/myblog/all-blog.org" "Blog Ideas")
-		 (function org-hugo-new-subtree-post-capture-template))))
+  :ensure t
+  :after ox
+  :config
+  (setq org-hugo-base-dir "/mnt/f/blog/blowfish-hugo-source-file/")
+  (setq org-hugo-export-with-section-numbers t)
+  ;; 导出四级标题
+  (setq org-export-headline-levels 4)
+  )
 
 (provide 'init-org)
 ;;; init-org.el ends here

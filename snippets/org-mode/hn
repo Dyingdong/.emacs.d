@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: Hugo Note Snippet
+# key: hn
+# --
+#+STARTUP: content
+#+HUGO_SECTION: {$1}/{$2}
+#+EXPORT_FILE_NAME: {$3}
+#+HUGO_CATEGORIES:
+#+HUGO_TAGS:
+#+HUGO_AUTHOR: Dyingdong
+#+DESCRIPTION:
+#+TITLE: {$4}

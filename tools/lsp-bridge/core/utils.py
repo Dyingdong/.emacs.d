@@ -153,6 +153,11 @@ def get_remote_connection_info():
     global remote_connection_info
     return remote_connection_info
 
+def local_path_to_tramp_path(path, tramp_method):
+    """convert path in DocumentUri format to tramp format."""
+    tramp_path = path.replace("file://", "file://" + tramp_method)
+    return tramp_path
+
 def eval_in_emacs(method_name, *args):
     global lsp_bridge_server
 
@@ -483,6 +488,14 @@ def remove_duplicate_references(data):
             seen.add(t_item)
             result.append(item)
     return result
+
+def get_nested_value(dct, keys):
+    for key in keys:
+        try:
+            dct = dct[key]
+        except (KeyError, TypeError):
+            return None
+    return dct
 
 class MessageSender(Thread):
 

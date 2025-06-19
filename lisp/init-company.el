@@ -24,28 +24,28 @@
   (setq company-transformers '(company-sort-by-occurrence)) ; 根据选择的频率进行排序
 
   ;; company-tabnine AI 自动补全
-  (use-package company-tabnine
-    :ensure t
-    :init
-    (add-to-list 'company-backends #'company-tabnine)
-    ;;(setq-default company-tabnine--disable-next-transform nil)
+  ;; (use-package company-tabnine
+  ;;   :ensure t
+  ;;   :init
+  ;;   (add-to-list 'company-backends #'company-tabnine)
+  ;;   ;;(setq-default company-tabnine--disable-next-transform nil)
 
-    ;; workaround for company-transformers
-    (setq company-tabnine--disable-next-transform nil)
-    (defun my-company--transform-candidates (func &rest args)
-      (if (not company-tabnine--disable-next-transform)
-          (apply func args)
-        (setq company-tabnine--disable-next-transform nil)
-        (car args)))
+  ;;   ;; workaround for company-transformers
+  ;;   (setq company-tabnine--disable-next-transform nil)
+  ;;   (defun my-company--transform-candidates (func &rest args)
+  ;;     (if (not company-tabnine--disable-next-transform)
+  ;;         (apply func args)
+  ;;       (setq company-tabnine--disable-next-transform nil)
+  ;;       (car args)))
 
-    (defun my-company-tabnine (func &rest args)
-      (when (eq (car args) 'candidates)
-        (setq company-tabnine--disable-next-transform t))
-      (apply func args))
+  ;;   (defun my-company-tabnine (func &rest args)
+  ;;     (when (eq (car args) 'candidates)
+  ;;       (setq company-tabnine--disable-next-transform t))
+  ;;     (apply func args))
 
-    (advice-add #'company--transform-candidates :around #'my-company--transform-candidates)
-    (advice-add #'company-tabnine :around #'my-company-tabnine)
-    )
+  ;;   (advice-add #'company--transform-candidates :around #'my-company--transform-candidates)
+  ;;   (advice-add #'company-tabnine :around #'my-company-tabnine)
+  ;;   )
 
   ;; 图形界面
   (use-package company-box

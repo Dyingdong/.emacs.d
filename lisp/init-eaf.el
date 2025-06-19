@@ -13,7 +13,7 @@
   (eaf-browser-enable-adblocker t)
   (browse-url-browser-function 'eaf-open-browser)
   :config
-  ;; (setq eaf-python-command "/opt/homebrew/bin/python3")
+  (setq eaf-python-command "/opt/homebrew/bin/python3")
   ;; (setq eaf-enable-debug t)
   ;; (require 'eaf-demo)
   (require 'eaf-org)

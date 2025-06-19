@@ -7,13 +7,20 @@
 ;;
 
 ;;; Code:
+(require 'init-custom)
 
 (use-package copilot
   :load-path (lambda () (expand-file-name "copilot" dragonli-emacs-tools-file-path))
   :ensure nil
-  :hook (prog-mode . copilot-mode)
+:hook
+  (text-mode . copilot-mode)
+  (prog-mode . copilot-mode)
   :config
-  ;; (global-copilot-mode)
+(defcustom copilot-log-max message-log-max
+    "Max size of events buffer. 0 disables, nil means infinite."
+    :group 'copilot
+    :type 'integer
+    )
   (setq copilot-indent-offset-warning-disable t) ;; 不打开这个会有警告，影响体验
   ;; complete by copilot first, then auto-complete
   (defun my-tab ()

@@ -81,8 +81,10 @@
 (with-eval-after-load 'embark
   (define-key embark-file-map (kbd "C-f") #'consult-file-externally)
   (define-key embark-file-map (kbd "C-d") #'consult-directory-externally)
+  (define-key embark-file-map (kbd "C") #'copy-directory)
   (define-key embark-symbol-map (kbd "C-e") #'dragonli-eaf-search-bing-other-window)
   (define-key embark-region-map (kbd "C-e") #'dragonli-eaf-search-bing-other-window))
+
 
 ;; ---------------------------------------------------------------------------
 

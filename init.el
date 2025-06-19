@@ -71,9 +71,9 @@
 (require 'init-completion)
 (require 'init-company)
 (require 'init-tools)
-(require 'init-projectile)
-(require 'init-git)
-(require 'init-treemacs)
+;; (require 'init-projectile)
+;; (require 'init-git)
+;; (require 'init-treemacs)
 
 (require 'init-compile)
 (require 'init-org)
@@ -90,13 +90,13 @@
 ;;Degug
 ;;(require 'init-dap)
 ;; 代码折叠
-(require 'init-origami)
+;; (require 'init-origami)
 ;;Language
-(require 'init-flycheck)
+;; (require 'init-flycheck)
 ;;(require 'init-c)
 ;;(require 'init-java)
-(require 'init-python)
-(require 'init-matlab)
+;; (require 'init-python)
+;; (require 'init-matlab)
 (require 'init-copilot)
 
 (require 'init-latex)
@@ -105,10 +105,15 @@
 ;; (require 'init-pdf-tools)
 ;;(require 'init-chatgpt-shell)
 
-;; 花里胡哨的配置
-(require 'init-holo-layer)
+;; refernce from: https://github.com/seagle0128/.emacs.d/blob/93f752b103bb1e29a53beb383303cc7a78572361/lisp/init-window.el#L90
+(require 'init-window)
 
-(require 'init-eaf)
+;; (require 'init-popweb)
+
+;; 花里胡哨的配置
+;; (require 'init-holo-layer)
+
+;; (require 'init-eaf)
 
 (provide 'init)
 ;;; init.el ends here
