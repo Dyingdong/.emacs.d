@@ -252,7 +252,7 @@
   :ensure t
   :after ox
   :config
-  (setq org-hugo-base-dir "/mnt/f/blog/blowfish-hugo-source-file/")
+  (setq org-hugo-base-dir "~/blog/blowfish-hugo-source-file/")
   (setq org-hugo-export-with-section-numbers t)
   ;; 导出四级标题
   (setq org-export-headline-levels 4)

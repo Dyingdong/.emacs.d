@@ -219,5 +219,39 @@
   :config
   (super-save-mode +1))
 
+;; 使用拼音进行搜索
+(use-package pyim
+  :ensure t
+  :defer t
+  :init
+  (require 'pyim)
+  (defun eh-orderless-regexp (orig_func component)
+    (let ((result (funcall orig_func component)))
+      (pyim-cregexp-build result)))
+
+
+  (defun toggle-chinese-search ()
+    (interactive)
+    (if (not (advice-member-p #'eh-orderless-regexp 'orderless-regexp))
+	(advice-add 'orderless-regexp :around #'eh-orderless-regexp)
+      (advice-remove 'orderless-regexp #'eh-orderless-regexp)))
+
+  (defun disable-py-search (&optional args)
+    (interactive)
+    (if (advice-member-p #'eh-orderless-regexp 'orderless-regexp)
+	(advice-remove 'orderless-regexp #'eh-orderless-regexp)))
+
+  (defun enable-py-search ()
+    (interactive)
+    (if (not (advice-member-p #'eh-orderless-regexp 'orderless-regexp))
+	(advice-add 'orderless-regexp :around #'eh-orderless-regexp))
+    )
+  
+  ;; (advice-add 'exit-minibuffer :after #'disable-py-search)
+  (add-hook 'minibuffer-exit-hook 'enable-py-search)
+
+  (global-set-key (kbd "s-p") 'toggle-chinese-search)
+  )
+
 (provide 'init-packages)
 ;;; init-packages.el ends here
