@@ -14,7 +14,7 @@
   ;;:hook (sqlite3 . org-roam-mode)
   :bind ("C-c o f" . org-roam-node-find)
   :init
-  (setq org-roam-directory "/Users/dyingdong/Work")
+  (setq org-roam-directory "/Users/dyingdong/Work/emacs_org_roam/")
 
   (setq find-file-visit-truename t)
   

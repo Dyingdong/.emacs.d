@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: 工作插入问题标题
+# key: wfti
+# --
+HANGUP ${1} 🙋

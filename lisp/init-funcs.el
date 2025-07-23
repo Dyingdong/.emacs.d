@@ -355,7 +355,7 @@ See `buffer-invisibility-spec'."
 	       (propertize "Image Size: " 'face '(bold default)))))
   (if (string= size "")
       ;; 默认值是700
-      (insert (concat "#+ATTR_ORG: :width 500"))
+      (insert (concat "#+ATTR_ORG: :width 366"))
     (insert (concat "#+ATTR_ORG: :width " size)))
   )
 
@@ -366,9 +366,8 @@ See `buffer-invisibility-spec'."
 	      (concat
 	       (propertize "Image Size: " 'face '(bold default)))))
   (if (string= size "")
-      (insert (concat "#+ATTR_ORG: :width 600"))
+      (insert (concat "#+ATTR_ORG: :width 366"))
     (insert (concat "#+ATTR_ORG: :width " size)))
-  (insert "\n")
   (org-download-clipboard)
   )
 
@@ -423,8 +422,8 @@ See `buffer-invisibility-spec'."
   "Search the keyword in Bing by EAF in other window."
   (interactive)
   (setq keyword (read-from-minibuffer
-	      (concat
-	       (propertize "Which you want search: " 'face '(bold default)))))
+		 (concat
+		  (propertize "Which you want search: " 'face '(bold default)))))
   ;; (concat "https://cn.bing.com/search?q" search)
   (eaf-open-browser-other-window (concat "https://cn.bing.com/search?q=" keyword))
   )
@@ -433,12 +432,25 @@ See `buffer-invisibility-spec'."
   "Search the keyword in Bing by EAF in current window."
   (interactive)
   (setq keyword (read-from-minibuffer
-	      (concat
-	       (propertize "Which you want search: " 'face '(bold default)))))
+		 (concat
+		  (propertize "Which you want search: " 'face '(bold default)))))
   ;; (concat "https://cn.bing.com/search?q" search)
   (eaf-open-browser (concat "https://cn.bing.com/search?q=" keyword))
   )
 
+;; 在使用org-download时加上对图片大小的设置
+(defun dragonli-insert-image ()
+  "Insert the image in org mode by `org-download'."
+  (interactive)
+  (setq size (read-from-minibuffer
+	      (concat
+	       (propertize "Image Size: " 'face '(bold default)))))
+  (if (string= size "")
+      ;; 默认值是1000
+      (insert (concat "#+ATTR_ORG: :width 500"))
+    (insert (concat "#+ATTR_ORG: :width " size)))
+  (org-download-clipboard)
+  )
 
 (provide 'init-funcs)
 ;;; init-funcs.el ends here

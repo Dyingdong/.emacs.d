@@ -133,6 +133,8 @@
   ;; 希望org-mode标题的字体大小和正文一致，设成1.0， 如果希望标题字体大一点可以设成1.2
   ;; org-mode正文height为200
   (custom-set-faces
+   ;; DONG加删除线
+   '(org-done ((t (:inherit org-headline-done :strike-through t :weight bold))))
    '(org-level-1 ((t (:inherit outline-1 :height 215))))
    '(org-level-2 ((t (:inherit outline-2 :height 205))))
    '(org-level-3 ((t (:inherit outline-3 :height 200))))
@@ -156,6 +158,36 @@
   ;; 标题下的列表就可以像标题一样折叠了
   (setq org-cycle-include-plain-lists 'integrate)
 
+  ;; 设置任务流程
+  ;; This is achieved by adding special markers ‘!’ (for a timestamp)
+  ;; or ‘@’ (for a note with timestamp) in parentheses after each keyword.
+  (setq org-todo-keywords
+	'((sequence "DOING(i)" "TODO(t)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)"))
+	org-todo-keyword-faces '(("TODO" . (:foreground "#F4606C" :weight blod))
+				 ("DOING" . (:foreground "#19CAAD" :weight blod))
+				 ("HANGUP" . (:foreground "#F4606C" :weight bold))
+				 ;; ("DONE" . (:foreground "#939391" :weight blod))
+				 ;; ("CANCEL" . (:foreground "black"))
+				 ))
+  
+  (setq org-priority-faces '((?A . error)
+			     (?B . warning)
+			     (?C . success)))
+  
+  (defun my/org-auto-set-visibility-by-state ()
+    "根据任务状态自动设置VISIBILITY属性：
+   - DOING状态: 设置为content
+   - DONE/CANCEL状态: 设置为folded"
+    (when (member org-state '("DOING" "DONE" "CANCEL"))
+      (save-excursion
+	(org-back-to-heading t)
+	(let ((new-visibility (cond ((string= org-state "DOING") "content")
+                                    ((member org-state '("DONE" "CANCEL")) "folded"))))
+          (org-set-property "VISIBILITY" new-visibility)
+          (org-cycle-hide-drawers 'all)))))
+
+  (add-hook 'org-after-todo-state-change-hook 'my/org-auto-set-visibility-by-state)
+  
   ) ; use-package org ends here
 
 (use-package hi-lock
@@ -236,16 +268,57 @@
 (use-package org-download
   :ensure t
   :defer t
+  :after org
   :hook
   (org-mode . org-download-enable)
   (org-roam-mode . org-download-enable)
   :init
   (setq-default org-download-heading-lvl 4)
   (setq-default org-download-image-dir "./images")
-  (defun dummy-org-download-annotate-function (link)
-    "")
-  (setq org-download-annotate-function
-	'dummy-org-download-annotate-function)
+  (setq org-download-annotate-function (lambda (_link) ""))
+  :config
+  (defun dragonli-org-download-clipboard (&optional basename)
+    "Capture the image from the clipboard and insert the resulting file."
+    (interactive)
+    (let ((org-download-screenshot-method
+           (cl-case system-type
+             (gnu/linux
+              (if (string= "wayland" (getenv "XDG_SESSION_TYPE"))
+                  (if (executable-find "wl-paste")
+                      "wl-paste -t image/png > %s"
+                    (user-error
+                     "Please install the \"wl-paste\" program included in wl-clipboard"))
+		(if (executable-find "xclip")
+                    "xclip -selection clipboard -t image/png -o > %s"
+                  (user-error
+                   "Please install the \"xclip\" program"))))
+             ((windows-nt cygwin)
+              (if (executable-find "magick")
+                  "magick convert clipboard: %s"
+		(user-error
+		 "Please install the \"magick\" program included in ImageMagick")))
+             ((darwin berkeley-unix)
+              (if (executable-find "pngpaste")
+                  "pngpaste %s"
+		(user-error
+		 "Please install the \"pngpaste\" program from Homebrew."))))))
+      ;; (org-id-get-create)
+      (org-download-screenshot basename)))
+  ;; 在使用org-download时加上对图片大小的设置
+  (defun dragonli-insert-image ()
+    "Insert the image in org mode by `org-download'."
+    (interactive)
+    (setq size (read-from-minibuffer
+		(concat
+		 (propertize "Image Size: " 'face '(bold default)))))
+    (if (string= size "")
+	;; 默认值是1000
+	(insert (concat "#+ATTR_ORG: :width 500"))
+      (insert (concat "#+ATTR_ORG: :width " size)))
+    (dragonli-org-download-clipboard)
+    )
+  
+  (define-key global-map (kbd "C-c p") 'dragonli-insert-image)
   )
 
 (use-package ox-hugo
