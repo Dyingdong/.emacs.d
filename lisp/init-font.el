@@ -20,8 +20,7 @@
 (setq-default english-font "Fira Code Retina")
 (setq-default chinese-font "Sarasa Term SC Light")
 
-(if window-system
-    (set-font english-font chinese-font))
+(my/set-font english-font chinese-font 166)
 
 (provide 'init-font)
 

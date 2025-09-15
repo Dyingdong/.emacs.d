@@ -135,10 +135,10 @@
   (custom-set-faces
    ;; DONG加删除线
    '(org-done ((t (:inherit org-headline-done :strike-through t :weight bold))))
-   '(org-level-1 ((t (:inherit outline-1 :height 215))))
-   '(org-level-2 ((t (:inherit outline-2 :height 205))))
-   '(org-level-3 ((t (:inherit outline-3 :height 200))))
-   '(org-level-4 ((t (:inherit outline-4 :height 200))))
+   ;; '(org-level-1 ((t (:inherit outline-1 :height 200))))
+   ;; '(org-level-2 ((t (:inherit outline-2 :height 190))))
+   ;; '(org-level-3 ((t (:inherit outline-3 :height 175))))
+   ;; '(org-level-4 ((t (:inherit outline-4 :height 170))))
    ) ;; end custom-set-faces
 
   (org-babel-do-load-languages
@@ -272,11 +272,11 @@
   :hook
   (org-mode . org-download-enable)
   (org-roam-mode . org-download-enable)
-  :init
+  :config
   (setq-default org-download-heading-lvl 4)
   (setq-default org-download-image-dir "./images")
   (setq org-download-annotate-function (lambda (_link) ""))
-  :config
+  (setq org-download-display-inline-images nil)
   (defun dragonli-org-download-clipboard (&optional basename)
     "Capture the image from the clipboard and insert the resulting file."
     (interactive)

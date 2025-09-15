@@ -169,7 +169,7 @@ the names of the English and Chinese font of Emacs."
   (interactive)
   ;;Setting English Font
   (set-face-attribute
-   'default nil :family english-font :height 180 :weight 'normal)
+   'default nil :family english-font :height 120 :weight 'normal)
   ;;Chinese Font
   (dolist (charset '(kana han symbol cjk-misc bopomofo))
     (set-fontset-font (frame-parameter nil 'font)
@@ -179,20 +179,83 @@ the names of the English and Chinese font of Emacs."
   (setq face-font-rescale-alist '((english-font . 1.0) (chinese-font . 1.23)))
   )
 
-;; (defun s-font(english-font chinese-font)
-;;   "Function for setting fonts."
-;;   (interactive)
-;;   ;;Setting English Font
-;;   (set-face-attribute
-;;    'default nil :font "Fira Code Retina 20" :weight 'normal)
-;;   ;;Chinese Font
-;;   (dolist (charset '(kana han symbol cjk-misc bopomofo))
-;;     (set-fontset-font (frame-parameter nil 'font)
-;; 		      charset
-;; 		      (font-spec :family "Sarasa Term SC Light")))
-;;   ;; tune rescale so that Chinese character width = 2 * English character width
-;;   (setq face-font-rescale-alist '(("Fira Code Retina" . 1.0) ("Sarasa Term SC Light" . 1.23)))
-;;   )
+(defvar my/default-english-font "Fira Code Retina"
+  "Default English font name.")
+(defvar my/default-chinese-font "Sarasa Term SC Light"
+  "Default Chinese font name.")
+(defvar my/default-font-height 120
+  "Default font height.")
+(defvar my/chinese-font-scale 0.85
+  "Scale factor for Chinese font size relative to English font.")
+
+(defun my/font-available-p (font-name)
+  "Check if FONT-NAME is available on the system."
+  (if (find-font (font-spec :family font-name))
+      t
+    (message "Font '%s' not found" font-name)
+    nil))
+
+(defun my/set-font (&optional english-font chinese-font height)
+  "Set English and Chinese fonts with error checking.
+If called interactively, prompt for font names.
+ENGLISH-FONT: English font name
+CHINESE-FONT: Chinese font name  
+HEIGHT: Font height (default 120)"
+  (interactive
+   (let* ((eng (completing-read "English font: " (font-family-list)))
+          (chi (completing-read "Chinese font: " (font-family-list)))
+          (hgt (read-number "Font height: " my/default-font-height)))
+     (list eng chi hgt)))
+  
+  ;; 设置默认值
+  (setq english-font (or english-font my/default-english-font))
+  (setq chinese-font (or chinese-font my/default-chinese-font))
+  (setq height (or height my/default-font-height))
+  
+  ;; 检查字体可用性
+  (unless (my/font-available-p english-font)
+    (setq english-font my/default-english-font)
+    (message "Using default English font: %s" english-font))
+  
+  (unless (my/font-available-p chinese-font)
+    (setq chinese-font my/default-chinese-font)
+    (message "Using default Chinese font: %s" chinese-font))
+  
+  ;; 设置英文字体（主要字体）
+  (set-face-attribute 'default nil
+                     :family english-font
+                     :height height
+                     :weight 'normal)
+  
+  ;; 设置中文字体 - 使用独立的字体集，不设置size
+  (dolist (charset '(kana han symbol cjk-misc bopomofo))
+    (set-fontset-font t charset
+                     (font-spec :family chinese-font)))
+  
+  ;; 调整字体缩放比例 - 这是关键！
+  (setq face-font-rescale-alist
+        (append `((,english-font . 1.0)
+                 (,chinese-font . ,my/chinese-font-scale))
+                (assq-delete-all english-font 
+                                (assq-delete-all chinese-font 
+                                                face-font-rescale-alist))))
+  
+  ;; 更新默认值
+  (setq my/default-english-font english-font)
+  (setq my/default-chinese-font chinese-font)
+  (setq my/default-font-height height)
+  
+  (message "Fonts set: %s (%.1f), %s (%.1f), scale: %.2f"
+           english-font height chinese-font 
+           (* height my/chinese-font-scale) my/chinese-font-scale))
+
+(defun my/adjust-chinese-scale (scale)
+  "Adjust Chinese font scale factor.
+SCALE: scaling factor (e.g., 0.9 for 90% of English font size)"
+  (interactive "nChinese font scale (0.1-2.0): ")
+  (setq my/chinese-font-scale (max 0.1 (min 2.0 scale)))
+  (my/set-font))
+
 
 
 (defun avy-action-embark (pt)
@@ -447,7 +510,7 @@ See `buffer-invisibility-spec'."
 	       (propertize "Image Size: " 'face '(bold default)))))
   (if (string= size "")
       ;; 默认值是1000
-      (insert (concat "#+ATTR_ORG: :width 500"))
+      (insert (concat "#+ATTR_ORG: :width 366"))
     (insert (concat "#+ATTR_ORG: :width " size)))
   (org-download-clipboard)
   )
