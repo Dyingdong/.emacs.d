@@ -2,7 +2,10 @@
 # name: 解决问题过程
 # key: jxjtwfti
 # --
-* ${1} - ${2}
+* DONE ${1} - ${2}
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 ** 问题分析
 
 ** 问题排查

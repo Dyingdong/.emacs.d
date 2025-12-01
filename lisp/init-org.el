@@ -135,10 +135,10 @@
   (custom-set-faces
    ;; DONG加删除线
    '(org-done ((t (:inherit org-headline-done :strike-through t :weight bold))))
-   ;; '(org-level-1 ((t (:inherit outline-1 :height 200))))
-   ;; '(org-level-2 ((t (:inherit outline-2 :height 190))))
-   ;; '(org-level-3 ((t (:inherit outline-3 :height 175))))
-   ;; '(org-level-4 ((t (:inherit outline-4 :height 170))))
+   '(org-level-1 ((t (:inherit outline-1 :height 200))))
+   '(org-level-2 ((t (:inherit outline-2 :height 190))))
+   '(org-level-3 ((t (:inherit outline-3 :height 175))))
+   '(org-level-4 ((t (:inherit outline-4 :height 170))))
    ) ;; end custom-set-faces
 
   (org-babel-do-load-languages
@@ -313,7 +313,7 @@
 		 (propertize "Image Size: " 'face '(bold default)))))
     (if (string= size "")
 	;; 默认值是1000
-	(insert (concat "#+ATTR_ORG: :width 500"))
+	(insert (concat "#+ATTR_ORG: :width 366"))
       (insert (concat "#+ATTR_ORG: :width " size)))
     (dragonli-org-download-clipboard)
     )

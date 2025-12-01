@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: 项目小节点
+# key: xdmuxcjxdm
+# --
+* DONE ${1} - 项目会议
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
+** 收尾工作（明确截止时间）
+
+** 待开发工作（未明确时间）
