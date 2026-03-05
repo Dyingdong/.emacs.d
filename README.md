@@ -2,7 +2,8 @@
 
 # 简介
 
-本文档是对配置文件的解释。
+1.  本文档是对配置文件的解释
+2.  本配置文件适用于macOS，windows下的配置见gitee：<https://gitee.com/yhdong12138/.emacs.d>
 
 
 # 配置模块化原则
@@ -13,14 +14,6 @@ init-better-defaults.el # 增强内置功能
 init-keybindings.el     # 快捷键绑定
 init-org.el             # Org 模式相关的全部设定
 custom.el              # 存放使用编辑器接口产生的配置信息
-
-
-# Emacs 界面显示出现乱码
-
-
-## 解决办法
-
-M-x all-the-icons-install-fonts
 
 
 # 字体设置
@@ -39,8 +32,8 @@ M-x all-the-icons-install-fonts
       ;;Chinese Font
       (dolist (charset '(kana han symbol cjk-misc bopomofo))
         (set-fontset-font (frame-parameter nil 'font)
-    		      charset
-    		      (font-spec :family chinese-font)))
+                          charset
+                          (font-spec :family chinese-font)))
       ;; tune rescale so that Chinese character width = 2 * English character width
       (setq face-font-rescale-alist '((english-font . 1.0) (chinese-font . 1.23)))
       )
@@ -101,4 +94,47 @@ loop-alpha 函数来自 [EmacsWiki - alpha-window](https://www.emacswiki.org/ema
 利用 loop-alpha 函数无法永久修改配置，因此需要在配置文件中加入如下代码：
 
     (set-frame-parameter (selected-frame) 'alpha '(95 65))
+
+
+# Q&A
+
+
+## Emacs 界面显示出现乱码
+
+
+### 解决办法
+
+M-x all-the-icons-install-fonts
+
+
+## GitHub Copilot 无法使用
+
+
+### 情况1：没有安装最新的node
+
+如果刚下载了 Emacs Copilot 插件，可能会出现无法使用的情况。此时需要安装最新版本的 node.js。
+
+    brew install node
+
+
+### 情况2：与GitHub的连接问题
+
+
+#### 可能出现的错误信息
+
+如果出现出现如下情况，可能是因为 GitHub 的连接问题：
+
+1.  Timed out
+2.  "Could not log in with device flow on <https://github.com>: connect ECONNREFUSED 20.205.243.166:443"
+
+
+#### 解决办法
+
+1.  用如下网址查询分别查询github.com和api.github.com的ip地址
+    
+        https://www.ipaddress.com/ip-lookup
+2.  在“/etc/hosts”文件中添加如下内容
+    
+        148.82.114.4 github.com
+        148.82.114.6 api-github.com
 

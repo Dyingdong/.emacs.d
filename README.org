@@ -2,7 +2,8 @@
 #+STARTUP: content
 
 * 简介
-本文档是对配置文件的解释。
+1) 本文档是对配置文件的解释
+2) 本配置文件适用于macOS，windows下的配置见gitee：https://gitee.com/yhdong12138/.emacs.d
 
 * 配置模块化原则
 init-packages.el        # 插件管理
