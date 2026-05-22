@@ -38,10 +38,16 @@
            :target (file+head "%<%Y%m%d%H>_${slug}.org"
 			      "#+STARTUP:\n#+title: ${title}\n\n")
            :unnarrowed t)
-	  ("p" "Paper Note" plain "* FIRST PASS\n ** Category\n\n** Context\n\n** Correctness\n\n** Contribution\n\n** Clarity\n * SECOND PASS\n\n* * THIRD PASS"
+	  ;; ("p" "Paper Note" plain "* FIRST PASS\n ** Category\n\n** Context\n\n** Correctness\n\n** Contribution\n\n** Clarity\n * SECOND PASS\n\n* * THIRD PASS"
+          ;;  :target (file+head "%<%Y%m%d%H>_${slug}.org"
+	  ;; 		      "#+STARTUP:\n#+title: ${title}\n\n")
+          ;;  :unnarrowed t)
+	  ;; 新增 Hugo 模版，快捷键 h
+          ("h" "Hugo Note" plain "%?"
            :target (file+head "%<%Y%m%d%H>_${slug}.org"
-			      "#+STARTUP:\n#+title: ${title}\n\n")
-           :unnarrowed t)))
+                            "#+STARTUP: content\n#+HUGO_SECTION: /${slug}\n#+EXPORT_FILE_NAME: index.md\n#+HUGO_CATEGORIES:\n#+HUGO_TAGS:\n#+HUGO_AUTHOR: Dyingdong\n#+DESCRIPTION: \n#+TITLE: ${title}\n")
+         :unnarrowed t)
+	  ))
 
   ;;org-roam-dailies-directory
   (setq-default org-roam-dailies-directory "~/Documents/Org/org-roam-directory/diary")
@@ -63,20 +69,20 @@
 		)
 
   ;;网页抓取
-  (setq-default org-roam-capture-ref-templates
-		'(("D" "Default" plain "\n"
-		   :target (file+head "${slug}.org" "#+title: ${title}\n\n")
-		   ;; :immediate-finish t
-		   :unnarrowed t)
-		  ("a" "Annotation" plain "%U ${body}\n"
-		   :target (file+head "${slug}.org" "#+title: ${title}\n\n")
-		   ;; :immediate-finish t
-		   :unnarrowed t)
-		  ("r" "Reference" plain
-		   "* FIRST PASS\n** Category\nWhat type of paper is this? A measurement paper? An analysis of an existing system? A description of a research prototype?\n\n** Context\nWhich other papers is it related to? Which theoretical bases were used to analyze the problem?\n\n** Correctness\nDo the assumptions appear to be valid?\n\n** Contribution\nWhat are the paper’s main contributions?\n\n** Clarity\nIs the paper well written?\n\n* SECOND PASS\n\n* THIRD PASS\n\n"
-		   :target (file+head "${slug}.org" "#+title: ${title}\n\n")
-		   :unnarrowed t))
-		)
+  ;; (setq-default org-roam-capture-ref-templates
+  ;; 		'(("D" "Default" plain "\n"
+  ;; 		   :target (file+head "${slug}.org" "#+title: ${title}\n\n")
+  ;; 		   ;; :immediate-finish t
+  ;; 		   :unnarrowed t)
+  ;; 		  ("a" "Annotation" plain "%U ${body}\n"
+  ;; 		   :target (file+head "${slug}.org" "#+title: ${title}\n\n")
+  ;; 		   ;; :immediate-finish t
+  ;; 		   :unnarrowed t)
+  ;; 		  ("r" "Reference" plain
+  ;; 		   "* FIRST PASS\n** Category\nWhat type of paper is this? A measurement paper? An analysis of an existing system? A description of a research prototype?\n\n** Context\nWhich other papers is it related to? Which theoretical bases were used to analyze the problem?\n\n** Correctness\nDo the assumptions appear to be valid?\n\n** Contribution\nWhat are the paper’s main contributions?\n\n** Clarity\nIs the paper well written?\n\n* SECOND PASS\n\n* THIRD PASS\n\n"
+  ;; 		   :target (file+head "${slug}.org" "#+title: ${title}\n\n")
+  ;; 		   :unnarrowed t))
+  ;; 		)
   )
 ;; use-package org-roam ends here
 

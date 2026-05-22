@@ -77,7 +77,7 @@
 
 (require 'init-compile)
 (require 'init-org)
-;;(require 'init-org-gtd)
+;; (require 'init-org-gtd)
 (require 'init-org-roam)
 
 (require 'init-yasnippet) ;;init-yasnippet需要在init-lsp-bridge前

@@ -158,6 +158,14 @@
   ;; 标题下的列表就可以像标题一样折叠了
   (setq org-cycle-include-plain-lists 'integrate)
 
+  ;; org agenda
+  ;; Collect all .org from my Org directory and subdirs
+  (load-library "find-lisp")
+  (setq org-agenda-files (find-lisp-find-files "~/Work/" "\.org$"))
+
+  (setq org-log-into-drawer t)
+  (setq org-log-done nil)
+  (setq org-log-done-with-time nil)
   ;; 设置任务流程
   ;; This is achieved by adding special markers ‘!’ (for a timestamp)
   ;; or ‘@’ (for a note with timestamp) in parentheses after each keyword.

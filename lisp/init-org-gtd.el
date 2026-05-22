@@ -9,6 +9,7 @@
 
 (use-package org-gtd
   :ensure nil
+
   ) ;; use-package ends here
 
 (provide 'init-org-gtd)
