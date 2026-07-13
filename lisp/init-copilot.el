@@ -15,6 +15,7 @@
   :hook
   (text-mode . copilot-mode)
   (prog-mode . copilot-mode)
+  
   :config
   (defcustom copilot-log-max message-log-max
     "Max size of events buffer. 0 disables, nil means infinite."

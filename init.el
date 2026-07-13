@@ -69,7 +69,7 @@
 ;; (require 'init-evil)
 
 (require 'init-completion)
-(require 'init-company)
+;; (require 'init-company)
 (require 'init-tools)
 ;; (require 'init-projectile)
 ;; (require 'init-git)
@@ -114,6 +114,8 @@
 ;; (require 'init-holo-layer)
 
 ;; (require 'init-eaf)
+
+;; (require 'init-ai)
 
 (provide 'init)
 ;;; init.el ends here
